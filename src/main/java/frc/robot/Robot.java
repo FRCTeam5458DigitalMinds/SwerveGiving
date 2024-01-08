@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-      Trajectory trajectory = new Trajectory();
+  Trajectory trajectory = new Trajectory();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -80,7 +80,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();

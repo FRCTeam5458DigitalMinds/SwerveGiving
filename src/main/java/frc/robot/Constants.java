@@ -194,8 +194,9 @@ public final class Constants {
   }
 
   public static final class LimelightConstants {
-    public static final double m_limelightMountAngleDegree = 41;
+    public static final double m_limelightMountAngleDegree = 38.1;
     public static final double m_limelightLensHeightInches = 7.125;
+    public static final double m_limelightToFrontOfRobot = 17.5;
   }
 
 }

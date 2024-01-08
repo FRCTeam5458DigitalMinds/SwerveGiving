@@ -48,9 +48,15 @@ public class RobotContainer {
   public static final String m_testauto = "Default";
   public static final String m_auto1 = "Auto Option Example";
 
+  //side sendable chooser
+  public static final String m_blue = "Blue";
+  public static final String m_red = "Red";
+
   public String m_autoSelected;
+  public String m_sideChosen;
 
   public final SendableChooser<String> m_chooser = new SendableChooser<>();
+  public final SendableChooser<String> m_side_chooser = new SendableChooser<>();
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -68,9 +74,13 @@ public class RobotContainer {
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     m_chooser.setDefaultOption("Test Path", m_testauto);
     m_chooser.addOption("Example Option", m_auto1);
+    m_side_chooser.setDefaultOption("Blue", m_blue);
+    m_side_chooser.addOption("Red", m_red);
     SmartDashboard.putData("Auto Choices", m_chooser);
+    SmartDashboard.putData("Side", m_side_chooser);
 
     m_SwerveSubsystem.setDefaultCommand(
       new TeleopSwerve(
@@ -80,7 +90,8 @@ public class RobotContainer {
           () -> -m_XboxController.getRawAxis(rotationAxis),
           () -> robotCentric.getAsBoolean()));
 
-    m_Limelight.updateLimelightTracking();
+
+    
     // Configure the trigger bindings
     configureBindings();
 
@@ -120,6 +131,11 @@ public class RobotContainer {
       );
      
     )*/
+    public String getSide() {
+      m_sideChosen = m_side_chooser.getSelected();
+
+      return m_sideChosen;
+    }
     public Command getAutonomousCommand() {
       // An ExampleCommand will run in
       m_autoSelected = m_chooser.getSelected();
