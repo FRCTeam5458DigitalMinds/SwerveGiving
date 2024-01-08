@@ -13,6 +13,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.SwerveModuleConstants;
+import edu.wpi.first.wpilibj2.command.*;
+import java.util.HashMap;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -80,7 +82,9 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     public static final double maxSpeed = 15.1; // meters per second
-    public static final double maxAngularVelocity = 11.5; //what are these units?
+    public static final double automaxspeed = 4.5;
+    public static final double autoacceleration = 1.5;
+    public static final double maxAngularVelocity = 15.7; //what are these units?
 
     /* Neutral Modes */
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;
@@ -134,7 +138,7 @@ public final class Constants {
       public static final int driveMotorID = 8;
       public static final int angleMotorID = 7;
       public static final int canCoderID = 32;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-7493.818);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-298.818);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -151,7 +155,7 @@ public final class Constants {
       public static final int driveMotorID = 6;
       public static final int angleMotorID = 5;
       public static final int canCoderID = 34;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(1090.195);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-349.805);
         /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -165,7 +169,7 @@ public final class Constants {
   
 
     public static final boolean angleMotorInvert = false;
-    public static final boolean driveMotorInvert = false;
+    public static final boolean driveMotorInvert = true;
 
     
 
@@ -189,6 +193,9 @@ public final class Constants {
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
 
-
+  public static final class LimelightConstants {
+    public static final double m_limelightMountAngleDegree = 41;
+    public static final double m_limelightLensHeightInches = 7.125;
+  }
 
 }

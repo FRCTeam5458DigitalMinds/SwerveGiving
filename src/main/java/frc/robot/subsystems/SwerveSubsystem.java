@@ -5,7 +5,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.auto.*;
+import com.pathplanner.lib.commands.*;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathConstraints;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,6 +22,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -27,8 +34,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private Field2d field;
 
+
   /** Creates a new SwerveSubsystem. */
-  public SwerveSubsystem() {
+  public SwerveSubsystem() 
+  {
+
     //instantiates new pigeon gyro, wipes it, and zeros it
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
@@ -36,7 +46,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     //Creates all four swerve modules into a swerve drive
     mSwerveMods =
-    new SwerveModule[] {
+    new SwerveModule[] 
+    {
       new SwerveModule(0, Constants.SwerveConstants.Mod0.constants),
       new SwerveModule(1, Constants.SwerveConstants.Mod1.constants),
       new SwerveModule(2, Constants.SwerveConstants.Mod2.constants),
@@ -48,9 +59,15 @@ public class SwerveSubsystem extends SubsystemBase {
 
     //puts out the field
     field = new Field2d();
-    SmartDashboard.putData("Field", field);
+    //SmartDashboard.putData("Field", field);
+
+    //auto and path planner trajectory init
   }
 
+  public SwerveDriveKinematics getKinematics()
+{
+  return Constants.SwerveConstants.swerveKinematics;
+}
   public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
   //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
   {
@@ -66,31 +83,37 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
 
   //set states for all 4 modules
-  for (SwerveModule mod : mSwerveMods) {
+  for (SwerveModule mod : mSwerveMods) 
+  {
     mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
   }
 }
 
   /* Used by SwerveControllerCommand in Auto */
-  public void setModuleStates(SwerveModuleState[] desiredStates) {
+  public void setModuleStates(SwerveModuleState[] desiredStates)
+  {
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
 
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : mSwerveMods) 
+    {
       mod.setDesiredState(desiredStates[mod.moduleNumber], false);
     }
   }
 
-
-  public Pose2d getPose() {
+  public Pose2d getPose() 
+  {
     return swerveOdometry.getPoseMeters();
   }
 
-  public void resetOdometry(Pose2d pose) {
+  public void resetOdometry(Pose2d pose) 
+  {
     swerveOdometry.resetPosition(getYaw(), getPositions(), pose);
   }
 
-  public void setWheelsToX() {
-    setModuleStates(new SwerveModuleState[] {
+  public void setWheelsToX() 
+  {
+    setModuleStates(new SwerveModuleState[] 
+    {
       // front left
       new SwerveModuleState(0.0, Rotation2d.fromDegrees(45.0)),
       // front right
@@ -169,14 +192,16 @@ public class SwerveSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Pigeon Roll",  pigeon.getPitch());
 
-    for (SwerveModule mod : mSwerveMods) {
+    //commented this out because it is cluttering my dashboard lol!
+    /* for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
-  }
+      }*/
+  
 }
 
 }

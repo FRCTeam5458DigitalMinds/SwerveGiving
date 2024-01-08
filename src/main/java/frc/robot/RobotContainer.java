@@ -4,39 +4,53 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.autos.HighCubeBalance;
-import frc.robot.autos.WorkingHighCubeBalance;
-import frc.robot.autos.exampleAuto;
+import frc.robot.autos.PathPlannerExample;
 import frc.robot.commands.TeleopSwerve;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Limelight;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.Constants.SwerveConstants;
+import java.io.IOException;
 
 
-
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_XboxController = new CommandXboxController(0);
+
   //private final CommandJoystick m_JoystickL = new CommandJoystick(0);
   //private final CommandJoystick m_JoystickR = new CommandJoystick(1);
+
+  //path planner sendable chooser
+  public static final String m_testauto = "Default";
+  public static final String m_auto1 = "Auto Option Example";
+
+  public String m_autoSelected;
+
+  public final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -45,21 +59,19 @@ public class RobotContainer {
   
   private final Trigger robotCentric =
   new Trigger(m_XboxController.leftBumper());
-
-
-  /*private final int translationAxis = Joystick.AxisType.kY.value; //left flight stick
-  private final int strafeAxis = Joystick.AxisType.kX.value; //left flight stick
-  private final int rotationAxis = Joystick.AxisType.kX.value; //right flight stick*/
-
-  /* Subsystems */
-  private final SwerveSubsystem m_SwerveSubsystem = new SwerveSubsystem();
-
-
+  //path planner
 
   
+  //Subsystems 
+  private final SwerveSubsystem m_SwerveSubsystem = new SwerveSubsystem();
+  private final Limelight m_Limelight = new Limelight();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_chooser.setDefaultOption("Test Path", m_testauto);
+    m_chooser.addOption("Example Option", m_auto1);
+    SmartDashboard.putData("Auto Choices", m_chooser);
+
     m_SwerveSubsystem.setDefaultCommand(
       new TeleopSwerve(
           m_SwerveSubsystem,
@@ -68,9 +80,12 @@ public class RobotContainer {
           () -> -m_XboxController.getRawAxis(rotationAxis),
           () -> robotCentric.getAsBoolean()));
 
+    m_Limelight.updateLimelightTracking();
     // Configure the trigger bindings
     configureBindings();
+
   }
+
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -84,6 +99,7 @@ public class RobotContainer {
   private void configureBindings() {
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
+    m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    
   }
 
@@ -92,8 +108,34 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return new HighCubeBalance(m_SwerveSubsystem);
-  }
+  /*private void configureAutoCommands() {
+
+    AUTO_EVENT_MAP.put("event1", new PrintCommand("passed marker 1"));
+
+    ArrayList<PathPlannerTrajectory> auto1Paths =
+      PathPlanner.loadPathGroup(
+        "testpath",
+        automaxspeed,
+        autoacceleration
+      );
+     
+    )*/
+    public Command getAutonomousCommand() {
+      // An ExampleCommand will run in
+      m_autoSelected = m_chooser.getSelected();
+
+
+      switch (m_autoSelected)
+      {
+        //to add an auto, first declare as a string, then add as a smart dash option
+        //make path and make an auto file copying the "PathPlannerExample.java" file
+        //replace the trajectory with your own name of the path planner export
+        //make a case in this string where you return a command beginning a new instance of your auto
+        case m_auto1:
+          return new PathPlannerExample(m_SwerveSubsystem);
+        default:
+          return new PathPlannerExample(m_SwerveSubsystem);
+      }
+    }
+
 }
