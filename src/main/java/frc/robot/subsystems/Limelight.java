@@ -1,13 +1,16 @@
 package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class Limelight 
 {
-    String m_Side = Robot.;
+    private SwerveSubsystem m_swerveSubsystem;
+    //String m_Side = Robot.;
     double[] m_tagHeights = {};
     double m_hasValidTarget = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     double m_x_AngleOffset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -34,7 +37,7 @@ public class Limelight
 
         return m_limelightToTagInches;
     }
-
+   
     public void LimeToDrive() 
     {
         updateLimelightTracking();
@@ -44,13 +47,20 @@ public class Limelight
         SmartDashboard.putString("DB/String 2", Double.toString(m_y_AngleOffset));
         SmartDashboard.putString("DB/String 2", Double.toString(m_x_AngleOffset));
     }
+
+   /*public void Rotation_Snap()
+    {
+        m_swerveSubsystem.drive(new Translation2d(0.0, 0.0) , m_x_AngleOffset/70, true, true);
+        
+    } */
+   
     public double detectTarget() 
     {
         return m_hasValidTarget;
     }
-    public double findXOffset() 
+   // public double findXOffset() 
     {
-        return m_x_AngleOffset;
+      //  return;
     }
     public boolean rightOfTag() 
     {
@@ -64,6 +74,11 @@ public class Limelight
     public double findYOffset() 
     {
         return m_y_AngleOffset;
+    }
+    public double findXOffset() 
+    {
+        updateLimelightTracking();
+        return m_x_AngleOffset;
     }
     public double findAreaDetected() 
     {

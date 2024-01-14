@@ -26,9 +26,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
   private final WPI_Pigeon2 pigeon;
+  private final Limelight m_Limelight;
 
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
@@ -42,6 +44,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     //instantiates new pigeon gyro, wipes it, and zeros it
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
+    m_Limelight = new Limelight();
     pigeon.configFactoryDefault();
     zeroGyro();
 
@@ -72,7 +75,10 @@ public class SwerveSubsystem extends SubsystemBase {
   public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
   //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
   {
-      SwerveModuleState[] swerveModuleStates =
+    SmartDashboard.putString("DB/String 3", Double.toString(translation.getX()));
+    SmartDashboard.putString("DB/String 4", Double.toString(translation.getY()));
+    SmartDashboard.putString("DB/String 1", Double.toString(rotation));  
+    SwerveModuleState[] swerveModuleStates =
       Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(
           //fancy way to do an if else statement 
           //if field relative == true, use field relative stuff, otherwise use robot centric
@@ -82,6 +88,7 @@ public class SwerveSubsystem extends SubsystemBase {
               : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
   //sets to top speed if above top speed
   SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
+ 
 
   //set states for all 4 modules
   for (SwerveModule mod : mSwerveMods) 
@@ -155,6 +162,8 @@ public class SwerveSubsystem extends SubsystemBase {
         : Rotation2d.fromDegrees(pigeon.getYaw());
   }
 
+  
+
   public boolean AutoBalance(){
     double roll_error = pigeon.getPitch();//the angle of the robot
     double balance_kp = -.005;//Variable muliplied by roll_error
@@ -167,6 +176,8 @@ public class SwerveSubsystem extends SubsystemBase {
       if (position_adjust > .1){position_adjust = .1;}
       if (position_adjust < -.1){position_adjust = -.1;}
       drive(new Translation2d(position_adjust, 0), 0.0, true, false);
+      double m_x_AngleOffset = 1;
+      drive(new Translation2d(0.0, 0.0) , m_x_AngleOffset/1000, true, true);
       
       return false;
     }

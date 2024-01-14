@@ -7,8 +7,10 @@ package frc.robot;
 import com.pathplanner.lib.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -54,6 +56,7 @@ public class RobotContainer {
 
   public String m_autoSelected;
   public String m_sideChosen;
+  public int m_numYPressed;
 
   public final SendableChooser<String> m_chooser = new SendableChooser<>();
   public final SendableChooser<String> m_side_chooser = new SendableChooser<>();
@@ -65,6 +68,11 @@ public class RobotContainer {
   
   private final Trigger robotCentric =
   new Trigger(m_XboxController.leftBumper());
+
+  private final Trigger rotation_snap_pressed =
+  new Trigger(m_XboxController.y());
+
+
   //path planner
 
   
@@ -84,12 +92,12 @@ public class RobotContainer {
 
     m_SwerveSubsystem.setDefaultCommand(
       new TeleopSwerve(
-          m_SwerveSubsystem,
+          m_SwerveSubsystem, m_Limelight,
           () -> -m_XboxController.getRawAxis(translationAxis),
           () -> -m_XboxController.getRawAxis(strafeAxis),
           () -> -m_XboxController.getRawAxis(rotationAxis),
-          () -> robotCentric.getAsBoolean()));
-
+          () -> robotCentric.getAsBoolean(),
+          () -> rotation_snap_pressed.getAsBoolean()));
 
     
     // Configure the trigger bindings
@@ -108,12 +116,18 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
+   // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
     m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
-   
+   // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));
+
   }
 
+  public void Rotation_Snap()
+  {
+   m_numYPressed += 1;
+
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
