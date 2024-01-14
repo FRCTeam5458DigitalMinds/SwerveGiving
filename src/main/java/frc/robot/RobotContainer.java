@@ -72,7 +72,8 @@ public class RobotContainer {
   private final Trigger rotation_snap_pressed =
   new Trigger(m_XboxController.y());
 
-
+  private final Trigger strafe_snap_pressed =
+  new Trigger(m_XboxController.a());
   //path planner
 
   
@@ -97,7 +98,8 @@ public class RobotContainer {
           () -> -m_XboxController.getRawAxis(strafeAxis),
           () -> -m_XboxController.getRawAxis(rotationAxis),
           () -> robotCentric.getAsBoolean(),
-          () -> rotation_snap_pressed.getAsBoolean()));
+          () -> rotation_snap_pressed.getAsBoolean(),
+          () -> strafe_snap_pressed.getAsBoolean()));
 
     
     // Configure the trigger bindings
@@ -118,7 +120,7 @@ public class RobotContainer {
   private void configureBindings() {
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
-    m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
+   // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));
 
   }

@@ -24,13 +24,15 @@ import java.util.HashMap;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
+
+
 public final class Constants {
   public static final class SwerveConstants{
     public static final double inputDeadband = .1;
     public static final int PIGEON_ID = 9; //tochange
     public static final boolean invertPigeon = false;
-
-    /* Drivetrain Constants */
+    public int[] apTagGyrosRed = {0, 0, 180, 180, -90, 0, 0, 0, 0, 0, -60, 60, 180, 0, 0, 0};
+        /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(20.750);//to find
     public static final double wheelBase = Units.inchesToMeters(20.750);//to find
     public static final double wheelDiameter = Units.inchesToMeters(4.0);

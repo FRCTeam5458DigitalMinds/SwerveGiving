@@ -27,6 +27,7 @@ public class TeleopSwerve extends CommandBase {
   private DoubleSupplier m_rotationSupplier;
   private BooleanSupplier m_robotCentricSupplier;
   private BooleanSupplier m_SnapPressed;
+  private BooleanSupplier m_strafeSnapPressed;
   private Limelight m_Limelight;
   private double m_tagHeightInches = 57.4166666;
 
@@ -43,17 +44,20 @@ public class TeleopSwerve extends CommandBase {
         DoubleSupplier strafeSupplier,
         DoubleSupplier rotationSupplier,
         BooleanSupplier robotCentricSupplier,
-        BooleanSupplier rotationSnapPressed) {
+        BooleanSupplier rotationSnapPressed,
+        BooleanSupplier strafeSnapPressed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_SwerveSubsystem = SwerveSubsystem;
     this.m_Limelight = Limelight;
     this.m_SnapPressed = rotationSnapPressed;
+    this.m_strafeSnapPressed = strafeSnapPressed;
     addRequirements(m_SwerveSubsystem);
     this.m_translationSupplier = translationSupplier;
     this.m_strafeSupplier = strafeSupplier;
     this.m_rotationSupplier = rotationSupplier;
     this.m_robotCentricSupplier = robotCentricSupplier;
   }
+
 
   // Called when the command is initially scheduled.
   @Override
@@ -63,12 +67,14 @@ public class TeleopSwerve extends CommandBase {
   @Override
   public void execute() {
         /* Get Values, applies Deadband, (doesnt do anything if stick is less than a value)*/
-        if (m_SnapPressed.getAsBoolean() == false) {
+        if (m_strafeSnapPressed.getAsBoolean() == false) {
+          
     strafeVal =
         strafeLimiter.calculate(
             MathUtil.applyDeadband(m_strafeSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
         }
         else {
+          SmartDashboard.putString("DB/String 6", ("Im inside!!"));
           double m_y_angleToTagDegrees = Constants.LimelightConstants.m_limelightMountAngleDegree +  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
           double m_y_angleToTagRadians = m_y_angleToTagDegrees * (3.14159 / 180.);
 
