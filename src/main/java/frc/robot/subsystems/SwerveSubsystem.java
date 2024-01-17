@@ -64,7 +64,6 @@ public class SwerveSubsystem extends SubsystemBase {
     //puts out the field
     field = new Field2d();
     //SmartDashboard.putData("Field", field);
-
     //auto and path planner trajectory init
   }
 
@@ -162,6 +161,12 @@ public class SwerveSubsystem extends SubsystemBase {
         : Rotation2d.fromDegrees(pigeon.getYaw());
   }
 
+  public double getYawDegrees()
+  {
+    return (Constants.SwerveConstants.invertPigeon)
+        ? (360 - pigeon.getYaw())
+        : (pigeon.getYaw());
+  }
   
 
   public boolean AutoBalance(){

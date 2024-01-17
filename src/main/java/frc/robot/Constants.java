@@ -31,7 +31,8 @@ public final class Constants {
     public static final double inputDeadband = .1;
     public static final int PIGEON_ID = 9; //tochange
     public static final boolean invertPigeon = false;
-    public int[] apTagGyrosRed = {0, 0, 180, 180, -90, 0, 0, 0, 0, 0, -60, 60, 180, 0, 0, 0};
+    public static final int[] apTagGyrosRed = {0, 0, 180, 180, -90, 0, 0, 0, 0, 0, -60, 60, 180, 0, 0, 0};
+    public static final int[] apTagGyrosBlue = {0, 0, 0, 0, 90, 90, 180, 180, 0, 0, 0, 0, 0, 180, 60, -60};
         /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(20.750);//to find
     public static final double wheelBase = Units.inchesToMeters(20.750);//to find

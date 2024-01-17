@@ -8,6 +8,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import frc.robot.RobotContainer;
 import java.lang.Math;
+
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -28,15 +30,26 @@ public class TeleopSwerve extends CommandBase {
   private BooleanSupplier m_robotCentricSupplier;
   private BooleanSupplier m_SnapPressed;
   private BooleanSupplier m_strafeSnapPressed;
+  private BooleanSupplier m_blueOrNot;
   private Limelight m_Limelight;
   private double m_tagHeightInches = 57.4166666;
+  private double m_LimelightId;
+  private double m_currentId;
+
+  private int[] arraychosen;
+  private double move_to_yaw;
 
   private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0); //can only change by 3 m/s in the span of 1 s
   private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
   private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
   private double rotationVal;
   private double translationVal;
+  private double current_yaw;
+  private double final_yaw;
+  
   private double strafeVal;
+  private boolean blueOrNot;
+
   /** Creates a new TeleopSwerve. */
     public TeleopSwerve(SwerveSubsystem SwerveSubsystem,
         Limelight Limelight,     
@@ -45,17 +58,20 @@ public class TeleopSwerve extends CommandBase {
         DoubleSupplier rotationSupplier,
         BooleanSupplier robotCentricSupplier,
         BooleanSupplier rotationSnapPressed,
-        BooleanSupplier strafeSnapPressed) {
+        BooleanSupplier strafeSnapPressed,
+        BooleanSupplier m_blueOrNot) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_SwerveSubsystem = SwerveSubsystem;
     this.m_Limelight = Limelight;
     this.m_SnapPressed = rotationSnapPressed;
     this.m_strafeSnapPressed = strafeSnapPressed;
+    this.m_blueOrNot = m_blueOrNot;
     addRequirements(m_SwerveSubsystem);
     this.m_translationSupplier = translationSupplier;
     this.m_strafeSupplier = strafeSupplier;
     this.m_rotationSupplier = rotationSupplier;
     this.m_robotCentricSupplier = robotCentricSupplier;
+    
   }
 
 
@@ -74,7 +90,6 @@ public class TeleopSwerve extends CommandBase {
             MathUtil.applyDeadband(m_strafeSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
         }
         else {
-          SmartDashboard.putString("DB/String 6", ("Im inside!!"));
           double m_y_angleToTagDegrees = Constants.LimelightConstants.m_limelightMountAngleDegree +  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
           double m_y_angleToTagRadians = m_y_angleToTagDegrees * (3.14159 / 180.);
 
@@ -93,14 +108,66 @@ public class TeleopSwerve extends CommandBase {
       rotationVal =
       rotationLimiter.calculate(
           MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), 0.7));
+
+      SmartDashboard.putString("DB/String 9", Double.toString(move_to_yaw));
     }
+    
+  // rotation snapping, restore soon and configure to a seperate button
+    /*
     else 
     {
       double x_offset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
       rotationVal = rotationLimiter.calculate(
            MathUtil.applyDeadband((x_offset/-27), Constants.SwerveConstants.inputDeadband));
       }
-      
+      */
+      else {
+        current_yaw = m_SwerveSubsystem.getYawDegrees();
+        SmartDashboard.putString("DB/String 6", Double.toString(current_yaw));
+        SmartDashboard.putString("DB/String 7", Double.toString(final_yaw));
+        SmartDashboard.putString("DB/String 8", Double.toString(m_LimelightId));
+
+        m_currentId = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0);
+
+        if (m_currentId > 0 && m_currentId < 17) {
+          m_LimelightId = m_currentId;
+        }
+
+        if (m_LimelightId > 0 && m_LimelightId < 17)
+        {
+          if (m_blueOrNot.getAsBoolean() == true) 
+          {
+            final_yaw = Constants.SwerveConstants.apTagGyrosBlue[((int)m_LimelightId - 1)];
+          }
+          else {
+            final_yaw = Constants.SwerveConstants.apTagGyrosRed[((int)m_LimelightId - 1)];
+          }
+        
+          if (current_yaw > 360)
+          {
+            current_yaw -= (Math.floor(current_yaw / 360)) * 360;
+          }
+          if (current_yaw < 0)
+          {
+            current_yaw += (Math.ceil(-current_yaw / 360)) * 360;
+          }
+          move_to_yaw = (final_yaw - current_yaw);
+
+          if (move_to_yaw > 180)
+          {
+            move_to_yaw -= 360;
+          }
+
+          move_to_yaw = move_to_yaw / 60;
+          SmartDashboard.putString("DB/String 6", Double.toString(current_yaw));
+
+        }
+
+          SmartDashboard.putString("DB/String 9", Double.toString(move_to_yaw));
+          rotationVal = rotationLimiter.calculate(
+            MathUtil.applyDeadband(move_to_yaw, 0));
+        
+      }
     
     /* Drive */
     m_SwerveSubsystem.drive(

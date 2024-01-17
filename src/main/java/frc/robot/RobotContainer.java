@@ -74,6 +74,8 @@ public class RobotContainer {
 
   private final Trigger strafe_snap_pressed =
   new Trigger(m_XboxController.a());
+
+  public final boolean blueOrNot = true;
   //path planner
 
   
@@ -86,6 +88,7 @@ public class RobotContainer {
 
     m_chooser.setDefaultOption("Test Path", m_testauto);
     m_chooser.addOption("Example Option", m_auto1);
+    //blueOrNot.addOption("Red", blueOrNot);
     m_side_chooser.setDefaultOption("Blue", m_blue);
     m_side_chooser.addOption("Red", m_red);
     SmartDashboard.putData("Auto Choices", m_chooser);
@@ -99,8 +102,9 @@ public class RobotContainer {
           () -> -m_XboxController.getRawAxis(rotationAxis),
           () -> robotCentric.getAsBoolean(),
           () -> rotation_snap_pressed.getAsBoolean(),
-          () -> strafe_snap_pressed.getAsBoolean()));
-
+          () -> strafe_snap_pressed.getAsBoolean(),
+          () -> blueOrNot));
+         
     
     // Configure the trigger bindings
     configureBindings();
