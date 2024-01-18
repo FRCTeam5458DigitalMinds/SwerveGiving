@@ -70,7 +70,7 @@ public class RobotContainer {
   new Trigger(m_XboxController.leftBumper());
 
   private final Trigger rotation_snap_pressed =
-  new Trigger(m_XboxController.y());
+  new Trigger(m_XboxController.x());
 
   private final Trigger strafe_snap_pressed =
   new Trigger(m_XboxController.a());
@@ -122,7 +122,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-   // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
+    m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));

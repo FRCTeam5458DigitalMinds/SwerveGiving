@@ -123,13 +123,14 @@ public class TeleopSwerve extends CommandBase {
       */
       else {
         current_yaw = m_SwerveSubsystem.getYawDegrees();
-        SmartDashboard.putString("DB/String 6", Double.toString(current_yaw));
-        SmartDashboard.putString("DB/String 7", Double.toString(final_yaw));
-        SmartDashboard.putString("DB/String 8", Double.toString(m_LimelightId));
+      //  SmartDashboard.putString("DB/String 6", Double.toString(current_yaw));
+        //SmartDashboard.putString("DB/String 7", Double.toString(final_yaw));
+       /// SmartDashboard.putString("DB/String 8", Double.toString(m_LimelightId));
 
         m_currentId = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0);
 
-        if (m_currentId > 0 && m_currentId < 17) {
+        if (m_currentId > 0 && m_currentId < 17) 
+        {
           m_LimelightId = m_currentId;
         }
 
@@ -142,33 +143,41 @@ public class TeleopSwerve extends CommandBase {
           else {
             final_yaw = Constants.SwerveConstants.apTagGyrosRed[((int)m_LimelightId - 1)];
           }
-        
-          if (current_yaw > 360)
-          {
-            current_yaw -= (Math.floor(current_yaw / 360)) * 360;
-          }
-          if (current_yaw < 0)
-          {
-            current_yaw += (Math.ceil(-current_yaw / 360)) * 360;
-          }
-          move_to_yaw = (final_yaw - current_yaw);
-
-          if (move_to_yaw > 180)
-          {
-            move_to_yaw -= 360;
-          }
-
-          move_to_yaw = move_to_yaw / 60;
-          SmartDashboard.putString("DB/String 6", Double.toString(current_yaw));
-
         }
+        if (current_yaw > 360)
+        {
+          current_yaw -= (Math.ceil(current_yaw / 360)) * 360;
+        }
+        if (current_yaw < 0)
+        {
+          current_yaw += (Math.floor(-current_yaw / 360)) * 360;
+        }
+        move_to_yaw = (final_yaw - current_yaw);
+
+        if (move_to_yaw > 180)
+        {
+          move_to_yaw -= 360;
+        }
+        
+          //move_to_yaw = m_SwerveSubsystem.closestAngle(current_yaw, final_yaw);
+        SmartDashboard.putString("DB/String 8", Double.toString(move_to_yaw));
+        /*
+          if (Math.abs(final_yaw - current_yaw) > 90 && Math.abs(final_yaw - current_yaw) < 270) {
+            final_yaw = ((int)final_yaw + 180) % 360;
+           Constants.SwerveConstants.maxSpeed = -Constant.SwerveConstants.maxSpeed;
+        */
+
+        move_to_yaw = move_to_yaw / 60;
+            //move_to_yaw = m_SwerveSubsystem.closestAngle(final_yaw, current_yaw);
+
+          //SmartDashboard.putString("DB/String 6", Double.toString(current_yaw));
+
+        
 
           SmartDashboard.putString("DB/String 9", Double.toString(move_to_yaw));
           rotationVal = rotationLimiter.calculate(
             MathUtil.applyDeadband(move_to_yaw, 0));
-        
-      }
-    
+          }
     /* Drive */
     m_SwerveSubsystem.drive(
         //the joystick values (-1 to 1) multiplied by the max speed of the drivetrain
@@ -180,7 +189,7 @@ public class TeleopSwerve extends CommandBase {
         //open loop control
         true);
 
-  }
+     }
 
   // Called once the command ends or is interrupted.
   @Override

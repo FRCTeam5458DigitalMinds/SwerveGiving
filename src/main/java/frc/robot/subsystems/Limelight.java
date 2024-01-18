@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveSubsystem;
+import java.lang.Math;
 
 public class Limelight 
 {
@@ -75,6 +76,7 @@ public class Limelight
     {
         return m_y_AngleOffset;
     }
+    
     public double findXOffset() 
     {
         updateLimelightTracking();

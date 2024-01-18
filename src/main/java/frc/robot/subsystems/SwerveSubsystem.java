@@ -154,6 +154,20 @@ public class SwerveSubsystem extends SubsystemBase {
     pigeon.setYaw(0);
   }
 
+
+  // public double closestAngle(double a, double b)
+  //       {
+  //       // get direction
+  //       double dir = (b % 360.0) - (a % 360.0);
+
+  //       // convert from -360 to 360 to -180 to 180
+  //       if (Math.abs(dir) > 180.0)
+  //       {
+  //               dir = -(Math.signum(dir) * 360.0) + dir;
+  //       }
+  //       return dir;
+  //       }
+        
   public Rotation2d getYaw() {
     //fancy if else loop again
     return (Constants.SwerveConstants.invertPigeon)
