@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.PathPlannerExample;
+import frc.robot.autos.FourNoteAuto;
 import frc.robot.commands.TeleopSwerve;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,8 +49,8 @@ public class RobotContainer {
 
   //path planner sendable chooser
   public static final String m_testauto = "Default";
-  public static final String m_auto1 = "Auto Option Example";
-
+  public static final String m_auto1 = "Four Note Auto";
+  
   //side sendable chooser
   public static final String m_blue = "Blue";
   public static final String m_red = "Red";
@@ -87,7 +88,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_chooser.setDefaultOption("Test Path", m_testauto);
-    m_chooser.addOption("Example Option", m_auto1);
+    m_chooser.addOption("Four Note Auto", m_auto1);
     //blueOrNot.addOption("Red", blueOrNot);
     m_side_chooser.setDefaultOption("Blue", m_blue);
     m_side_chooser.addOption("Red", m_red);
@@ -168,7 +169,7 @@ public class RobotContainer {
         //replace the trajectory with your own name of the path planner export
         //make a case in this string where you return a command beginning a new instance of your auto
         case m_auto1:
-          return new PathPlannerExample(m_SwerveSubsystem);
+          return new FourNoteAuto(m_SwerveSubsystem);
         default:
           return new PathPlannerExample(m_SwerveSubsystem);
       }

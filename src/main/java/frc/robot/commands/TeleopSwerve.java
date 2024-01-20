@@ -93,9 +93,9 @@ public class TeleopSwerve extends CommandBase {
           double m_y_angleToTagDegrees = Constants.LimelightConstants.m_limelightMountAngleDegree +  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
           double m_y_angleToTagRadians = m_y_angleToTagDegrees * (3.14159 / 180.);
 
-          double m_limelightToTagInches = Units.inchesToMeters(((m_tagHeightInches - Constants.LimelightConstants.m_limelightLensHeightInches) / Math.tan(m_y_angleToTagRadians)) - Constants.LimelightConstants.m_limelightToFrontOfRobot)*.07;
+          double m_horizontalBumpToTag = Units.inchesToMeters(((m_tagHeightInches - Constants.LimelightConstants.m_limelightLensHeightInches) / Math.tan(m_y_angleToTagRadians)) - Constants.LimelightConstants.m_limelightToFrontOfRobot)*.07;
 
-          strafeVal = m_limelightToTagInches*Math.tan(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
+          strafeVal = m_horizontalBumpToTag*Math.tan(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
           strafeVal = strafeLimiter.calculate(
             MathUtil.applyDeadband((strafeVal), Constants.SwerveConstants.inputDeadband));
         }
