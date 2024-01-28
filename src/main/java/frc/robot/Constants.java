@@ -235,5 +235,23 @@ public final class Constants {
     public static final double kV = 0.12;
     //public static final double allowed_error = 0.007;
   }
+  public static final class ClimbConstants {
+    public static final int climb_ID1 = 16;
+    public static final int climb_ID2 = 17;
+    //targets the errors over time
+    public static final double kI = 0.000;
 
+    //targets the errors in positioning
+    public static final double kP = 0.0075;
+    //targets the errors in velocity
+    public static final double kD = 0.0070;
+
+    public static final double FF = 0.00035;
+
+    public static final double max_vel = 2000;
+    public static final double min_vel = 0;
+    public static final double max_accel = 1500;
+
+    public static final double allowed_error = 0.007;
+  }
 }

@@ -3,11 +3,18 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+ 
 
 public class Shooter extends SubsystemBase{
     private TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.Shooter_ID);
+
+    private Timer feeder_timer = new Timer();
 
     private TalonFX flyWheelOne = new TalonFX(Constants.ShooterConstants.FlyWheelOne_ID);
     private TalonFX flyWheelTwo = new TalonFX(Constants.ShooterConstants.FlyWheelTwo_ID);
@@ -22,6 +29,7 @@ public class Shooter extends SubsystemBase{
   /** Creates a new ExampleSubsystem. */
     public Shooter() {
         shooterMotor.setPosition(0);
+        //flyWheelTwo.f(flyWheelOne);
 
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -50,19 +58,18 @@ public class Shooter extends SubsystemBase{
         shooterMotor.setControl(m_PIDRequest.withPosition(m_setPoints[setPoint]));
     }
 
-    public void runFlyWheels(Boolean On)
+    public void runFlyWheels(int OutputPercent)
     {
-        if (On)
-        {
-            flyWheelOne.set(.85);
-            flyWheelTwo.set(.85);
-        } 
-        else 
-        {
-            flyWheelOne.set(0);
-            flyWheelTwo.set(0);
-        }
+        OutputPercent /= 100;
+        flyWheelOne.set(OutputPercent);
     }
+
+    public void runFeederWheels(int OutputPercent)
+    {
+        OutputPercent /= 100;
+        feederWheel.set(OutputPercent);
+
+    }  
     /**
      * An example method querying a boolean state of the subsystem (for example, a digital sensor).
      *
@@ -77,5 +84,9 @@ public class Shooter extends SubsystemBase{
     public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
     }
+    public void print(String message)
+  {
+    SmartDashboard.putString("DB/String 3", message);
+  }
 }
 

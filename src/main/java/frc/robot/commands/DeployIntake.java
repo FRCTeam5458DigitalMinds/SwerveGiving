@@ -25,13 +25,13 @@ public class DeployIntake extends Command {
     public void execute() {
         if (deploying.getAsBoolean() == false) 
         {
-            intake.setRollers(false);
+            intake.setRollers(0);
             intake.toSetPoint(0);
         } 
         else 
         {   
             shooter.toSetPoint(1);
-            intake.setRollers(true);
+            intake.setRollers(50);
             intake.toSetPoint(1);
         }
     }

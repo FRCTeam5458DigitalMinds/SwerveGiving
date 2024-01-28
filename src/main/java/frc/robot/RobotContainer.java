@@ -144,8 +144,13 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_SwerveSubsystem.setWheelsToX();
-    NamedCommands.registerCommand("marker1", new InstantCommand(() -> m_GroundIntake.print("marker1")));
-    NamedCommands.registerCommand("marker2", new InstantCommand(() -> m_GroundIntake.print("marker2")));
+
+    //path planner named commands.
+    NamedCommands.registerCommand("deployIntake1", new InstantCommand(() -> m_GroundIntake.print("intake1")));
+    NamedCommands.registerCommand("deployIntake2", new InstantCommand(() -> m_GroundIntake.print("intake2")));
+    NamedCommands.registerCommand("deployIntake3", new InstantCommand(() -> m_GroundIntake.print("intake3")));
+    NamedCommands.registerCommand("ampScore", new InstantCommand(() -> m_GroundIntake.print("Amp Score!")));
+
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
@@ -188,15 +193,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
       // An ExampleCommand will run in
       //m_autoSelected = m_chooser.getSelected();
-
-
-
-        //to add an auto, first declare as a string, then add as a smart dash option
-        //make path and make an auto file copying the "PathPlannerExample.java" file
-        //replace the trajectory with your own name of the path planner export
-        //make a case in this string where you return a command beginning a new instance of your auto
-       // return m_chooser.getSelected();
-        return new PathPlannerAuto("sillylittlepath");
+        return new PathPlannerAuto("Amp Score");
       }
     }
 

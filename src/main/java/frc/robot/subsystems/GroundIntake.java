@@ -54,16 +54,11 @@ public class GroundIntake extends SubsystemBase {
     intakeController.setReference(m_setPoints[setPoint], CANSparkMax.ControlType.kSmartMotion);
   }
 
-  public void setRollers(Boolean On)
+  public void setRollers(int OutputPercent)
   {
-    if (!On) 
-    {
-      rollerMotor.set(0);
-    }
-    else
-    {
-      rollerMotor.set(0.3);
-    }
+      OutputPercent /= 100;
+      rollerMotor.set(OutputPercent);
+  
   }
   /* public void check vFinished()
   {

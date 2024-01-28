@@ -1,5 +1,83 @@
 package frc.robot.subsystems;
 
-public class Climber {
-    
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.Constants.ClimbConstants;
+
+public class Climber extends SubsystemBase {
+    private int stage1 = 1;
+    private int[] m_setPoints = {0, stage1};
+    private int climb_ID1 = ClimbConstants.climb_ID1;
+    private int climb_ID2 = ClimbConstants.climb_ID2;
+    private final SparkPIDController climbController;
+    private RelativeEncoder climbEncoder;
+    private CANSparkMax climbMotor_1;
+    private CANSparkMax climbMotor_2;
+    private int current_stage = 0;
+
+  public Climber() {
+    climbMotor_1 = new CANSparkMax(climb_ID1, MotorType.kBrushless);
+    climbMotor_2 = new CANSparkMax(climb_ID2, MotorType.kBrushless);
+
+    climbEncoder = climbMotor_1.getEncoder();
+
+    climbMotor_2.follow(climbMotor_1, true);
+    climbMotor_2.burnFlash();
+
+    climbMotor_1.setIdleMode(IdleMode.kBrake);
+    climbMotor_1.burnFlash();
+
+    climbMotor_1.setSmartCurrentLimit(30);
+    climbMotor_2.setSmartCurrentLimit(30);
+
+
+    climbController = climbMotor_1.getPIDController();
+
+    climbController.setP(Constants.ClimbConstants.kP);
+    climbController.setI(Constants.ClimbConstants.kI);
+    climbController.setD(Constants.ClimbConstants.kD);
+    climbController.setFF(Constants.ClimbConstants.FF);
+
+    climbController.setFeedbackDevice(climbEncoder);
+    climbController.setSmartMotionMaxAccel(Constants.ClimbConstants.max_accel, 0);
+
+    climbController.setSmartMotionMinOutputVelocity(Constants.ClimbConstants.min_vel, 0);
+    climbController.setSmartMotionMaxVelocity(Constants.ClimbConstants.max_vel, 0);
+    climbController.setSmartMotionAllowedClosedLoopError(Constants.ClimbConstants.allowed_error, 0);
+  }
+
+  public void toSetPoint(int setPoint) 
+  {
+    climbController.setReference(m_setPoints[setPoint], CANSparkMax.ControlType.kSmartMotion);
+    current_stage = setPoint;
+  }
+  public int getStage()
+  {
+    return current_stage;
+  }
+
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
+  }
+ 
+  /* protected void interrupted()
+  {
+   
+  } */
+
 }

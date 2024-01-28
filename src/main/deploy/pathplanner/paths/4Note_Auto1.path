@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.899297827031673,
-        "y": 6.176425622993426
+        "x": 1.8506645544096774,
+        "y": 6.059705768700637
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 6.614125076591384
       },
       "prevControl": {
-        "x": 1.772851318214485,
-        "y": 6.011072496078642
+        "x": 2.1093215000878613,
+        "y": 6.278087158180722
       },
       "nextControl": {
-        "x": 2.6404448701936243,
-        "y": 6.826084620665104
+        "x": 2.512077062068816,
+        "y": 6.721118276359775
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 5.583099697005081
       },
       "prevControl": {
-        "x": 2.385630553251628,
-        "y": 6.555765149444992
+        "x": 1.9187511360804712,
+        "y": 6.088885732273835
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,7 +54,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "marker1",
+      "name": "intake1",
       "waypointRelativePos": 1,
       "command": {
         "type": "sequential",
@@ -63,10 +63,37 @@
             {
               "type": "named",
               "data": {
-                "name": "marker1"
+                "name": "deploy intake"
               }
             }
           ]
+        }
+      }
+    },
+    {
+      "name": "shooter1",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shoot1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
         }
       }
     }
