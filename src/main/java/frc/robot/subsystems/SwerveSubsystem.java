@@ -8,9 +8,6 @@ import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.*;
-import com.pathplanner.lib.commands.*;
-import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -20,17 +17,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import frc.robot.subsystems.Limelight;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
   private final Pigeon2 pigeon;
@@ -76,9 +69,9 @@ public class SwerveSubsystem extends SubsystemBase {
       this::getChassisSpeeds, 
       this::driveRobotRelative,
      new HolonomicPathFollowerConfig(  
-      new PIDConstants(5.0, 0.0, 0.0),
-      new PIDConstants(5.0, 0.0, 0.0),
-      3.0,
+      new PIDConstants(35, 0.0, 1),
+      new PIDConstants(30, 0.0, 1),
+      4.5,
       10.375, 
       new ReplanningConfig()),
     sideChosen, this); 

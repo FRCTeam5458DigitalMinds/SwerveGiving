@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.2962452465189287,
+        "y": 5.583099697005081
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.899297827031673,
+        "y": 6.176425622993426
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.4148105168248253,
+        "y": 6.614125076591384
+      },
+      "prevControl": {
+        "x": 1.772851318214485,
+        "y": 6.011072496078642
+      },
+      "nextControl": {
+        "x": 2.6404448701936243,
+        "y": 6.826084620665104
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.4713250279581123,
+        "y": 5.583099697005081
+      },
+      "prevControl": {
+        "x": 2.385630553251628,
+        "y": 6.555765149444992
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 39.20720350496782,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "marker1",
+      "waypointRelativePos": 1,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "marker1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 800.0,
+    "maxAngularAcceleration": 700.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0.0
+  },
+  "useDefaultConstraints": false
+}

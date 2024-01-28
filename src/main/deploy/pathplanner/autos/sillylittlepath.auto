@@ -1,9 +1,9 @@
 {
   "version": 1.0,
   "startingPose": {
-   "position": {
-      "x": 1.31,
-      "y": 5.56
+    "position": {
+      "x": 1.2962452465189287,
+      "y": 5.583099697005081
     },
     "rotation": 0
   },
@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "4Note_Auto"
+            "pathName": "4Note_Auto1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "4Note_Auto2"
           }
         }
       ]

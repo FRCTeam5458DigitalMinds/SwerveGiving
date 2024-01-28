@@ -18,12 +18,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.PathPlannerExample;
 import frc.robot.autos.FourNoteAuto;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.DeployIntake;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.GroundIntake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -38,9 +41,15 @@ import frc.robot.Robot;
 import frc.robot.Constants.SwerveConstants;
 import java.io.IOException;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+
 public class RobotContainer {
+  //Named commands for path planner event markers
+  //NamedCommands.registerCommand("marker2", Commands.print("Passed marker 2"));
+ // NamedCommands.registerCommand("print hello", Commands.print("hello"));
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_XboxController = new CommandXboxController(0);
@@ -77,6 +86,9 @@ public class RobotContainer {
   private final Trigger strafe_snap_pressed =
   new Trigger(m_XboxController.a());
 
+  private final Trigger deploying_Intake =
+  new Trigger(m_XboxController.axisGreaterThan(2, 0));
+
   public final boolean blueOrNot = true;
   //path planner
 
@@ -84,7 +96,9 @@ public class RobotContainer {
   //Subsystems 
   private final SwerveSubsystem m_SwerveSubsystem = new SwerveSubsystem();
   private final Limelight m_Limelight = new Limelight();
-  
+  private final GroundIntake m_GroundIntake = new GroundIntake();
+  private final Shooter m_Shooter = new Shooter();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -106,8 +120,13 @@ public class RobotContainer {
           () -> rotation_snap_pressed.getAsBoolean(),
           () -> strafe_snap_pressed.getAsBoolean(),
           () -> blueOrNot));
-         
-    
+
+    m_GroundIntake.setDefaultCommand(
+      new DeployIntake(
+        m_GroundIntake, m_Shooter, 
+        () -> deploying_Intake.getAsBoolean()
+      )
+    );
     // Configure the trigger bindings
     configureBindings();
 
@@ -125,6 +144,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_SwerveSubsystem.setWheelsToX();
+    NamedCommands.registerCommand("marker1", new InstantCommand(() -> m_GroundIntake.print("marker1")));
+    NamedCommands.registerCommand("marker2", new InstantCommand(() -> m_GroundIntake.print("marker2")));
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));

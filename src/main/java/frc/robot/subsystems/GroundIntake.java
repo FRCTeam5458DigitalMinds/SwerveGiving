@@ -1,0 +1,96 @@
+package frc.robot.subsystems;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+
+public class GroundIntake extends SubsystemBase {
+  private int shooterHandoff = 10;
+  private int deployPosition = 0;
+
+  private int[] m_setPoints = {deployPosition, shooterHandoff};
+  
+  private final SparkPIDController intakeController;
+  private RelativeEncoder intakeEncoder;
+  private CANSparkMax intakeMotor;
+    private CANSparkMax rollerMotor;
+
+
+  public GroundIntake() {
+    intakeMotor = new CANSparkMax(Constants.IntakeConstants.intake_ID, MotorType.kBrushless);
+    rollerMotor = new CANSparkMax(Constants.IntakeConstants.roller_ID, MotorType.kBrushless);
+    intakeEncoder = intakeMotor.getEncoder();
+    intakeMotor.setIdleMode(IdleMode.kCoast);
+    intakeMotor.burnFlash();
+    rollerMotor.setIdleMode(IdleMode.kBrake);
+    rollerMotor.burnFlash();
+
+    rollerMotor.setSmartCurrentLimit(30);
+    intakeMotor.setSmartCurrentLimit(30);
+
+    intakeController = intakeMotor.getPIDController();
+
+    intakeController.setP(Constants.IntakeConstants.kP);
+    intakeController.setI(Constants.IntakeConstants.kI);
+    intakeController.setD(Constants.IntakeConstants.kD);
+    intakeController.setFF(Constants.IntakeConstants.FF);
+
+    intakeController.setFeedbackDevice(intakeEncoder);
+    intakeController.setSmartMotionMaxAccel(Constants.IntakeConstants.max_accel, 0);
+
+    intakeController.setSmartMotionMinOutputVelocity(Constants.IntakeConstants.min_vel, 0);
+    intakeController.setSmartMotionMaxVelocity(Constants.IntakeConstants.max_vel, 0);
+    intakeController.setSmartMotionAllowedClosedLoopError(Constants.IntakeConstants.allowed_error, 0);
+  }
+
+  public void toSetPoint(int setPoint) 
+  {
+    intakeController.setReference(m_setPoints[setPoint], CANSparkMax.ControlType.kSmartMotion);
+  }
+
+  public void setRollers(Boolean On)
+  {
+    if (!On) 
+    {
+      rollerMotor.set(0);
+    }
+    else
+    {
+      rollerMotor.set(0.3);
+    }
+  }
+  /* public void check vFinished()
+  {
+    if (atSetPoint)
+    {
+      armController.
+    }
+  } */
+
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
+  }
+ 
+  public void print(String message)
+  {
+    SmartDashboard.putString("DB/String 2", message);
+  }
+  /* protected void interrupted()
+  {
+   
+  } */
+
+}

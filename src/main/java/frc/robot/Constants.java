@@ -5,7 +5,6 @@
 //https://pro.docs.ctr-electronics.com/_/downloads/en/latest/pdf/
 package frc.robot;
 
-import com.ctre.phoenix6.controls.*;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,8 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.SwerveModuleConstants;
-import edu.wpi.first.wpilibj2.command.*;
-import java.util.HashMap;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -201,6 +198,42 @@ public final class Constants {
     public static final double m_limelightMountAngleDegree = 38.1;
     public static final double m_limelightLensHeightInches = 7.125;
     public static final double m_limelightToFrontOfRobot = 17.5;
+  }
+  public static final class IntakeConstants {
+    public static final int intake_ID = 10;
+    public static final int roller_ID = 11;
+
+    //PID values for the controller, to tune look up methods but start with 0
+    //largely ignore the integral value as it can quickly cause problems
+
+    //targets the errors over time
+    public static final double kI = 0.000;
+
+    //targets the errors in positioning
+    public static final double kP = 0.0075;
+    //targets the errors in velocity
+    public static final double kD = 0.0070;
+
+    public static final double FF = 0.00035;
+
+    public static final double max_vel = 2000;
+    public static final double min_vel = 0;
+    public static final double max_accel = 1500;
+
+    public static final double allowed_error = 0.007;
+  }
+  public static final class ShooterConstants {
+    public static final int Shooter_ID = 12;
+
+    public static final int FlyWheelOne_ID = 13;
+    public static final int FlyWheelTwo_ID = 14;
+    public static final int FeederWheel_ID = 15;
+
+    public static final double kI = 0.05;
+    public static final double kP = 0.15;
+    public static final double kD = 0.15;
+    public static final double kV = 0.12;
+    //public static final double allowed_error = 0.007;
   }
 
 }
