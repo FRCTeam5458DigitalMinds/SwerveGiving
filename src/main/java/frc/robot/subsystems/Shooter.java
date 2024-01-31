@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
- 
 
 public class Shooter extends SubsystemBase{
     private TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.Shooter_ID);
@@ -25,7 +24,6 @@ public class Shooter extends SubsystemBase{
 
     private int[] m_setPoints = {0, intakeHandoff, shootingPosition};
 
-  
   /** Creates a new ExampleSubsystem. */
     public Shooter() {
         shooterMotor.setPosition(0);

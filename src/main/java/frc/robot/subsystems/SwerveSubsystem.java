@@ -69,9 +69,10 @@ public class SwerveSubsystem extends SubsystemBase {
       this::getChassisSpeeds, 
       this::driveRobotRelative,
      new HolonomicPathFollowerConfig(  
-      new PIDConstants(5.0, 0.00001, 0.0),
-      new PIDConstants(5.0, 0.0005, 0.001),
-      4.5,
+      new PIDConstants(5.0, 0.00001, 0.01),
+      new PIDConstants(2.0, 0.0005, 0.001),
+      
+      3.0,
       10.375, 
       new ReplanningConfig()),
     sideChosen, this); 
@@ -79,29 +80,30 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public ChassisSpeeds getChassisSpeeds()
   {
+    SmartDashboard.putString("DB/String 1", Double.toString(pigeon.getAngle()));  
     return Constants.SwerveConstants.swerveKinematics.toChassisSpeeds(getStates());
+
   }
   public SwerveDriveKinematics getKinematics()
   {
-  return Constants.SwerveConstants.swerveKinematics;
+    return Constants.SwerveConstants.swerveKinematics;
   }
+
   public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
   //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
   {
-    SmartDashboard.putString("DB/String 3", Double.toString(translation.getX()));
-    SmartDashboard.putString("DB/String 4", Double.toString(translation.getY()));
-    SmartDashboard.putString("DB/String 1", Double.toString(rotation));  
+    SmartDashboard.putString("DB/String 3", Double.toString(-pigeon.getAngle()));
+    SmartDashboard.putString("DB/String 1", Double.toString(pigeon.getYaw().getValueAsDouble()));  
     SwerveModuleState[] swerveModuleStates =
       Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(
           //fancy way to do an if else statement 
           //if field relative == true, use field relative stuff, otherwise use robot centric
           fieldRelative
               ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                  translation.getX(), translation.getY(), rotation, getYaw())
+                  translation.getX(), translation.getY(), rotation, getDriveYaw())
               : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
   //sets to top speed if above top speed
   SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
- 
 
   //set states for all 4 modules
   for (SwerveModule mod : mSwerveMods) 
@@ -117,7 +119,7 @@ public class SwerveSubsystem extends SubsystemBase {
   //sets to top speed if above top speed
   SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
  
-
+  SmartDashboard.putString("DB/String 1", Double.toString(pigeon.getYaw().getValueAsDouble()));  
   //set states for all 4 modules
   for (SwerveModule mod : mSwerveMods) 
   {
@@ -204,9 +206,14 @@ public class SwerveSubsystem extends SubsystemBase {
     //fancy if else loop again
     return (Constants.SwerveConstants.invertPigeon)
         ? Rotation2d.fromDegrees(360 - pigeon.getYaw().getValueAsDouble())
+        : Rotation2d.fromDegrees(-pigeon.getAngle());
+  }
+  public Rotation2d getDriveYaw() {
+    //fancy if else loop again
+    return (Constants.SwerveConstants.invertPigeon)
+        ? Rotation2d.fromDegrees(360 - pigeon.getYaw().getValueAsDouble())
         : Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
   }
-
   public double getYawDegrees()
   {
     return (Constants.SwerveConstants.invertPigeon)

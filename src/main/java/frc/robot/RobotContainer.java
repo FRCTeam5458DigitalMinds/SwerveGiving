@@ -172,28 +172,17 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  /*private void configureAutoCommands() {
 
-    AUTO_EVENT_MAP.put("event1", new PrintCommand("passed marker 1"));
+  public String getSide() {
+    m_sideChosen = m_side_chooser.getSelected();
 
-    ArrayList<PathPlannerTrajectory> auto1Paths =
-      PathPlanner.loadPathGroup(
-        "testpath",
-        automaxspeed,
-        autoacceleration
-      );
-     
-    )*/
-    public String getSide() {
-      m_sideChosen = m_side_chooser.getSelected();
+    return m_sideChosen;
+  }
 
-      return m_sideChosen;
-    }
-
-    public Command getAutonomousCommand() {
-      // An ExampleCommand will run in
-      //m_autoSelected = m_chooser.getSelected();
-        return new PathPlannerAuto("Amp Score");
-      }
-    }
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in
+    //m_autoSelected = m_chooser.getSelected();
+    return new PathPlannerAuto("2NoteAmp_Auto");
+  }
+}
 

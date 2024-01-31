@@ -1,0 +1,190 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.48194968184329706,
+        "y": 7.702195357770669
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.48194968184329706,
+        "y": 7.730899191402113
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.878869585240213,
+        "y": 7.702195357770669
+      },
+      "prevControl": {
+        "x": 1.9267093079592839,
+        "y": 7.702195357770669
+      },
+      "nextControl": {
+        "x": 1.8693016406963985,
+        "y": 7.702195357770669
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.338130923343309,
+        "y": 7.415157021456234
+      },
+      "prevControl": {
+        "x": 2.320752604081949,
+        "y": 7.454258239794293
+      },
+      "nextControl": {
+        "x": 2.3764027015185665,
+        "y": 7.3290455205619045
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.878869585240213,
+        "y": 7.702195357770669
+      },
+      "prevControl": {
+        "x": 1.910961446847589,
+        "y": 7.646610622957224
+      },
+      "nextControl": {
+        "x": 1.846777723632837,
+        "y": 7.757780092584113
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.501850833085554,
+        "y": 7.415157021456234
+      },
+      "prevControl": {
+        "x": 6.957158179719203,
+        "y": 7.440890711165308
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -88.99491399524828,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": -37.568592028827474,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 3,
+      "rotationDegrees": -90.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 4,
+      "rotationDegrees": -86.89781453897805,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "ScorePreload",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ampScore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "IntakeNote",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakeNote"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ScoreNote",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ampScore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "IntakeNote2",
+      "waypointRelativePos": 4.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakeNote"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -84.54462022810884,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": -1.2462783677059424,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

@@ -2,6 +2,8 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
+import javax.lang.model.util.ElementScanner14;
+
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.GroundIntake;
 import frc.robot.subsystems.Shooter;
@@ -21,7 +23,7 @@ public class Shoot extends Command
         this.shooter = m_Shooter;
         this.intake = m_Intake;
 
-        this.elevator_point = climber.getStage();
+        this.elevator_point = climber.getInches();
 
         addRequirements(m_Climber);
         addRequirements(m_Shooter);
@@ -29,16 +31,24 @@ public class Shoot extends Command
     }
 
     public void execute() {
-        if (elevator_point == 0)
+        shooter.toSetPoint(0);
+        
+        if (elevator_point <= 1)
         {
             intake.setRollers(-50);
             //CALL AUTOMATIC LIMELIGHTSHOOTING HERE!!!!
         } 
-        else if (elevator_point == 1)
+        else if (elevator_point <= 7)
         {
-            shooter.runFeederWheels(95);
             shooter.runFlyWheels(80);
+            shooter.runFeederWheels(95);
+            
         }
-
+        else 
+        {
+            intake.setRollers(0);
+            shooter.runFlyWheels(-50);
+            shooter.runFeederWheels(-50);
+        }
     }
 }

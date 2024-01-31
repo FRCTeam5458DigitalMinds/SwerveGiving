@@ -63,7 +63,11 @@ public class Climber extends SubsystemBase {
   {
     return current_stage;
   }
-
+  public int getInches()
+  {
+    //CHANGE TO CONVERSION 
+    return 0;
+  }
 
   @Override
   public void periodic() {
