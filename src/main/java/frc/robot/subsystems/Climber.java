@@ -14,7 +14,8 @@ import frc.robot.Constants.ClimbConstants;
 
 public class Climber extends SubsystemBase {
     private int stage1 = 1;
-    private int[] m_setPoints = {0, stage1};
+    private int stage2 = 2;
+    private int[] m_setPoints = {0, stage1, stage2};
     private int climb_ID1 = ClimbConstants.climb_ID1;
     private int climb_ID2 = ClimbConstants.climb_ID2;
     private final SparkPIDController climbController;

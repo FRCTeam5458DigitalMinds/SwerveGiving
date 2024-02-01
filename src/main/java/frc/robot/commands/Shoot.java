@@ -28,11 +28,10 @@ public class Shoot extends Command
         addRequirements(m_Climber);
         addRequirements(m_Shooter);
         addRequirements(m_Intake);
-    }
 
-    public void execute() {
         shooter.toSetPoint(0);
-        
+        intake.toSetPoint(0);
+
         if (elevator_point <= 1)
         {
             intake.setRollers(-50);

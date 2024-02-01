@@ -12,9 +12,10 @@ import frc.robot.Constants;
 
 public class GroundIntake extends SubsystemBase {
   private int shooterHandoff = 10;
-  private int deployPosition = 0;
+  private int deployPosition = 20;
+  private int origin = 0;
 
-  private int[] m_setPoints = {deployPosition, shooterHandoff};
+  private int[] m_setPoints = {origin, deployPosition, shooterHandoff};
   
   private final SparkPIDController intakeController;
   private RelativeEncoder intakeEncoder;

@@ -20,9 +20,10 @@ public class Shooter extends SubsystemBase{
     private TalonFX feederWheel = new TalonFX(Constants.ShooterConstants.FeederWheel_ID);
 
     private int intakeHandoff = 5;
-    private int shootingPosition = 10;
+    private int climbingPosition = 10;
+    private int ampPosition = 15;
 
-    private int[] m_setPoints = {0, intakeHandoff, shootingPosition};
+    private int[] m_setPoints = {0, intakeHandoff, climbingPosition, ampPosition};
 
   /** Creates a new ExampleSubsystem. */
     public Shooter() {

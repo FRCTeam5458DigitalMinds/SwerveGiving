@@ -19,6 +19,7 @@ import frc.robot.autos.PathPlannerExample;
 import frc.robot.autos.FourNoteAuto;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.DeployIntake;
+import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -42,6 +43,7 @@ import frc.robot.Constants.SwerveConstants;
 import java.io.IOException;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import frc.robot.subsystems.Climber;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -98,6 +100,7 @@ public class RobotContainer {
   private final Limelight m_Limelight = new Limelight();
   private final GroundIntake m_GroundIntake = new GroundIntake();
   private final Shooter m_Shooter = new Shooter();
+  private final Climber m_Climber = new Climber(); 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -123,7 +126,7 @@ public class RobotContainer {
 
     m_GroundIntake.setDefaultCommand(
       new DeployIntake(
-        m_GroundIntake, m_Shooter, 
+        m_GroundIntake, m_Shooter, m_Climber,
         () -> deploying_Intake.getAsBoolean()
       )
     );
@@ -153,6 +156,10 @@ public class RobotContainer {
 
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
+    m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Climber.MoveClimber(m_Climber, )));
+    m_XboxController.button(Button.kA.value).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake));
+
+
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));
 
