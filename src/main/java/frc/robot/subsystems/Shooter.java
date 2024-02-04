@@ -19,11 +19,11 @@ public class Shooter extends SubsystemBase{
     private TalonFX flyWheelTwo = new TalonFX(Constants.ShooterConstants.FlyWheelTwo_ID);
     private TalonFX feederWheel = new TalonFX(Constants.ShooterConstants.FeederWheel_ID);
 
-    private int intakeHandoff = 5;
-    private int climbingPosition = 10;
-    private int ampPosition = 15;
+    private double intakeHandoff = 38204.5191;
+    private double climbingPosition = 60729.0075;
+    private double ampPosition = 109884.6591;
 
-    private int[] m_setPoints = {0, intakeHandoff, climbingPosition, ampPosition};
+    private double[] m_setPoints = {0, intakeHandoff, climbingPosition, ampPosition};
 
   /** Creates a new ExampleSubsystem. */
     public Shooter() {

@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class GroundIntake extends SubsystemBase {
-  private int shooterHandoff = 10;
-  private int deployPosition = 20;
-  private int origin = 0;
+  private double shooterHandoff = 550.5323;
+  private double deployPosition = 1479.173;
+  private double origin = 0;
 
-  private int[] m_setPoints = {origin, deployPosition, shooterHandoff};
+  private double[] m_setPoints = {origin, deployPosition, shooterHandoff};
   
   private final SparkPIDController intakeController;
   private RelativeEncoder intakeEncoder;

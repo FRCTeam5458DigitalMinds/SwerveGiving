@@ -26,14 +26,16 @@ public class MoveClimber extends Command {
         addRequirements(Intake);
         addRequirements(m_Shooter);
         addRequirements(m_Climber);
+    }
+
+    public void initialize()
+    {
 
         if (setPoint == 0) 
         //down
         {
             intake.setRollers(0);
-            intake.toSetPoint(0);
             shooter.runFeederWheels(0);
-            shooter.toSetPoint(0);
         } 
         else if (setPoint == 1)
         //amp score
@@ -41,8 +43,6 @@ public class MoveClimber extends Command {
             shooter.toSetPoint(2);
             shooter.runFeederWheels(0);
             intake.setRollers(0);
-            intake.toSetPoint(1);
-
         }
         //climbing
         else if (setPoint == 2) {
@@ -54,5 +54,11 @@ public class MoveClimber extends Command {
             
         }
         elevator.toSetPoint(setPoint);
+        isFinished();
+        
+    }
+    public boolean isFinished()
+    {
+        return true;
     }
 }

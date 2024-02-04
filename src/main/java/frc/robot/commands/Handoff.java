@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj.Timer;
 
-
-public class Handoff extends Command{
+public class Handoff extends Command
+{
 
     Timer timer = new Timer();
     GroundIntake intake;
@@ -24,12 +24,16 @@ public class Handoff extends Command{
         addRequirements(m_Shooter);
         addRequirements(m_Intake);
         
+    }
+
+    public void initialize()
+    {
         intake.toSetPoint(0);
         shooter.toSetPoint(1);
         intake.setRollers(-20);
         shooter.runFeederWheels(30);
 
-        timer.start();
+        timer.restart();
     }
 
     public void execute()
@@ -41,10 +45,9 @@ public class Handoff extends Command{
     {
         if (timer.get() > 2)
         {
-            intake.setRollers(0);
-            shooter.runFeederWheels(0);
-            timer.stop();
-            timer.reset();
+           intake.setRollers(0);
+           shooter.runFeederWheels(0);
+
             
             return true;
         }

@@ -15,7 +15,7 @@ public class Shoot extends Command
     Shooter shooter;
     GroundIntake intake;
 
-    private int elevator_point;
+    private double elevator_point;
 
     public Shoot(Climber m_Climber, Shooter m_Shooter, GroundIntake m_Intake) 
     {
@@ -23,12 +23,15 @@ public class Shoot extends Command
         this.shooter = m_Shooter;
         this.intake = m_Intake;
 
-        this.elevator_point = climber.getInches();
-
         addRequirements(m_Climber);
         addRequirements(m_Shooter);
         addRequirements(m_Intake);
 
+    }
+    
+    public void initialize()
+    {            
+        this.elevator_point = 4;
         shooter.toSetPoint(0);
         intake.toSetPoint(0);
 
@@ -40,8 +43,7 @@ public class Shoot extends Command
         else if (elevator_point <= 7)
         {
             shooter.runFlyWheels(80);
-            shooter.runFeederWheels(95);
-            
+            shooter.runFeederWheels(95);            
         }
         else 
         {
@@ -49,5 +51,11 @@ public class Shoot extends Command
             shooter.runFlyWheels(-50);
             shooter.runFeederWheels(-50);
         }
+        isFinished();
+    }
+    
+    public boolean isFinished()
+    {
+        return true;
     }
 }

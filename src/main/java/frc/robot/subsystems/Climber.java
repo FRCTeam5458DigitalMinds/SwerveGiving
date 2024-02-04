@@ -13,9 +13,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.ClimbConstants;
 
 public class Climber extends SubsystemBase {
-    private int stage1 = 1;
-    private int stage2 = 2;
-    private int[] m_setPoints = {0, stage1, stage2};
+    private double stage1 = 306.5961938;
+    private double stage2 = 1642.5750;
+    private double[] m_setPoints = {0, stage1, stage2};
     private int climb_ID1 = ClimbConstants.climb_ID1;
     private int climb_ID2 = ClimbConstants.climb_ID2;
     private final SparkPIDController climbController;
@@ -64,10 +64,11 @@ public class Climber extends SubsystemBase {
   {
     return current_stage;
   }
-  public int getInches()
+  public double getInches()
   {
     //CHANGE TO CONVERSION 
-    return 0;
+    double current_inches = climbEncoder.getPosition() * (1/16.3) * (1/42) * (1.5992 * 3.14159);
+    return current_inches;
   }
 
   @Override

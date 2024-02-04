@@ -19,6 +19,8 @@ import frc.robot.autos.PathPlannerExample;
 import frc.robot.autos.FourNoteAuto;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.DeployIntake;
+import frc.robot.commands.Handoff;
+import frc.robot.commands.MoveClimber;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -73,7 +75,9 @@ public class RobotContainer {
 
   //public final SendableChooser<Command> m_chooser;
   public final SendableChooser<String> m_side_chooser = new SendableChooser<>();
+  public final SendableChooser<Command> m_auto_chooser;
 
+// 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -101,17 +105,27 @@ public class RobotContainer {
   private final GroundIntake m_GroundIntake = new GroundIntake();
   private final Shooter m_Shooter = new Shooter();
   private final Climber m_Climber = new Climber(); 
+  //private final Command FourNoteAuto = new FourNoteAuto(m_SwerveSubsystem);
+  //private final Command PathPlannerExample = new PathPlannerExample(m_SwerveSubsystem);
+
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    //m_chooser = AutoBuilder.buildAutoChooser();
-
+    
     m_side_chooser.setDefaultOption("Blue", m_blue);
     m_side_chooser.addOption("Red", m_red);
+    m_auto_chooser = AutoBuilder.buildAutoChooser();
 
-    //SmartDashboard.putData("Auto Choices", m_chooser);
+   // m_auto_chooser.setDefaultOption("Four Note Score", FourNoteAuto);
+   // SmartDashboard.putData("Example Path (may not work)", new PathPlannerAuto("4Note_Auto"));
+
+    //SmartDashboard.putData("Auto Choices:", m_auto_chooser);
     SmartDashboard.putData("Side", m_side_chooser);
+   // SmartDashboard.putData("Path", m_auto_chooser);
+    
+
 
     m_SwerveSubsystem.setDefaultCommand(
       new TeleopSwerve(
@@ -132,7 +146,8 @@ public class RobotContainer {
     );
     // Configure the trigger bindings
     configureBindings();
-
+  
+    SmartDashboard.putData("Auto Mode", m_auto_chooser);
   }
 
 
@@ -156,9 +171,13 @@ public class RobotContainer {
 
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
-    m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Climber.MoveClimber(m_Climber, )));
-    m_XboxController.button(Button.kA.value).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake));
+    m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake));
 
+    m_XboxController.povDown().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 0));
+    m_XboxController.povLeft().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 1));
+    m_XboxController.povUp().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 2));
+
+    m_XboxController.axisGreaterThan(3, 0).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake));
 
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));
@@ -189,7 +208,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in
     //m_autoSelected = m_chooser.getSelected();
-    return new PathPlannerAuto("2NoteAmp_Auto");
+    return m_auto_chooser.getSelected();
   }
 }
 
