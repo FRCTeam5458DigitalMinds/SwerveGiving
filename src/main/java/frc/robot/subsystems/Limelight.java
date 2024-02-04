@@ -2,48 +2,54 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import java.lang.Math;
 
-public class Limelight 
+public class Limelight extends SubsystemBase
 {
     //String m_Side = Robot.;
-    double[] m_tagHeights = {};
+    double[] tagHeights = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     double m_hasValidTarget = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     double m_x_AngleOffset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double m_y_AngleOffset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     double m_areaDetected = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
 
+    int tag_ID =  NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getInteger(Long.valueOf(0));
     double m_tagHeightInches = 57.4166666;
-    //26 1/6 31 1/4
+
+    public Limelight() 
+    {
+
+    }
+    
     public void updateLimelightTracking() 
     {
         m_hasValidTarget = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
         m_x_AngleOffset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
         m_y_AngleOffset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
         m_areaDetected = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+        tag_ID =  NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getInteger(0);
+
     }
 
     //the Y and X distance is from an overhead view!
-    public double find_Tag_Y_Distance() 
+    public double find_Tag_Y_Distance(double tagHeight) 
     {
         double m_y_angleToTagDegrees = Constants.LimelightConstants.m_limelightMountAngleDegree + m_y_AngleOffset;
         double m_y_angleToTagRadians = m_y_angleToTagDegrees * (3.14159 / 180.);
 
-        double m_limelightToTagInches = ((m_tagHeightInches - Constants.LimelightConstants.m_limelightLensHeightInches) / Math.tan(m_y_angleToTagRadians)) - Constants.LimelightConstants.m_limelightToFrontOfRobot;
+        double m_limelightToTagInches = ((tagHeight - Constants.LimelightConstants.m_limelightLensHeightInches) / Math.tan(m_y_angleToTagRadians)) - Constants.LimelightConstants.m_limelightToFrontOfRobot;
 
         return m_limelightToTagInches;
     }
-   
-    public void LimeToDrive() 
+
+    public double findTagHeightFromID()
     {
         updateLimelightTracking();
-        double Y_Distance = find_Tag_Y_Distance();
-
-        SmartDashboard.putString("DB/String 1", Double.toString(Y_Distance));
-        SmartDashboard.putString("DB/String 2", Double.toString(m_y_AngleOffset));
-        SmartDashboard.putString("DB/String 2", Double.toString(m_x_AngleOffset));
+        return tagHeights[tag_ID];
+        
     }
-
    /*public void Rotation_Snap()
     {
         m_swerveSubsystem.drive(new Translation2d(0.0, 0.0) , m_x_AngleOffset/70, true, true);

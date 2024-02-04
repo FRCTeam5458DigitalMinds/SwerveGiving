@@ -67,7 +67,7 @@ public class Climber extends SubsystemBase {
   public double getInches()
   {
     //CHANGE TO CONVERSION 
-    double current_inches = climbEncoder.getPosition() * (1/16.3) * (1/42) * (1.5992 * 3.14159);
+    double current_inches = climbEncoder.getPosition() * (1/16.3) * (1.0/42.0) * (1.5992 * 3.14159);
     return current_inches;
   }
 

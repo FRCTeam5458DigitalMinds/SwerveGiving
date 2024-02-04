@@ -21,6 +21,7 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.Handoff;
 import frc.robot.commands.MoveClimber;
+import frc.robot.commands.RetractIntake;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -92,9 +93,6 @@ public class RobotContainer {
   private final Trigger strafe_snap_pressed =
   new Trigger(m_XboxController.a());
 
-  private final Trigger deploying_Intake =
-  new Trigger(m_XboxController.axisGreaterThan(2, 0));
-
   public final boolean blueOrNot = true;
   //path planner
 
@@ -137,13 +135,6 @@ public class RobotContainer {
           () -> rotation_snap_pressed.getAsBoolean(),
           () -> strafe_snap_pressed.getAsBoolean(),
           () -> blueOrNot));
-
-    m_GroundIntake.setDefaultCommand(
-      new DeployIntake(
-        m_GroundIntake, m_Shooter, m_Climber,
-        () -> deploying_Intake.getAsBoolean()
-      )
-    );
     // Configure the trigger bindings
     configureBindings();
   
@@ -171,14 +162,16 @@ public class RobotContainer {
 
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
-    m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake));
+    m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake, m_Climber));
 
     m_XboxController.povDown().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 0));
     m_XboxController.povLeft().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 1));
     m_XboxController.povUp().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 2));
 
-    m_XboxController.axisGreaterThan(3, 0).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake));
+    m_XboxController.axisGreaterThan(3, 0).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_SwerveSubsystem, m_Limelight));
 
+    m_XboxController.axisGreaterThan(2, 0).whileTrue(new DeployIntake(m_GroundIntake, m_Shooter, m_Climber));
+    m_XboxController.axisGreaterThan(2, 0).onFalse(new RetractIntake(m_GroundIntake, m_Shooter, m_Climber));
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));
 

@@ -27,32 +27,28 @@ public class MoveClimber extends Command {
         addRequirements(m_Shooter);
         addRequirements(m_Climber);
     }
-
     public void initialize()
     {
 
         if (setPoint == 0) 
         //down
         {
-            intake.setRollers(0);
-            shooter.runFeederWheels(0);
+            shooter.toSetPoint(0);
         } 
         else if (setPoint == 1)
         //amp score
         {   
-            shooter.toSetPoint(2);
-            shooter.runFeederWheels(0);
-            intake.setRollers(0);
+            shooter.toSetPoint(3);
         }
         //climbing
         else if (setPoint == 2) {
-            
-            shooter.toSetPoint(3);
-            shooter.runFeederWheels(0);
-            intake.setRollers(0);
+            shooter.toSetPoint(2);
             intake.toSetPoint(2);
-            
         }
+
+        intake.setRollers(0);
+        shooter.runFeederWheels(0);
+        shooter.runFlyWheels(0);
         elevator.toSetPoint(setPoint);
         isFinished();
         

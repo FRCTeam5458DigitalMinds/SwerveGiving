@@ -57,6 +57,19 @@ public class Shooter extends SubsystemBase{
         shooterMotor.setControl(m_PIDRequest.withPosition(m_setPoints[setPoint]));
     }
 
+    public void toCustomSetpoint(double degrees)
+    {
+      double toTicks = degreesToTicks(degrees);
+
+      final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
+      shooterMotor.setControl(m_PIDRequest.withPosition(toTicks));
+    }
+
+    public double degreesToTicks(double degrees)
+    {
+      return (degrees * 5.6889 * 218.75);
+    }
+    
     public void runFlyWheels(int OutputPercent)
     {
         OutputPercent /= 100;

@@ -8,36 +8,42 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Handoff extends Command
-{
+
+public class Handoff extends Command{
 
     Timer timer = new Timer();
     GroundIntake intake;
     Shooter shooter; 
-    
-    public Handoff(Shooter m_Shooter, GroundIntake m_Intake) 
+    Climber climber;
+
+    public Handoff(Shooter m_Shooter, GroundIntake m_Intake, Climber m_Climber) 
     {
         this.intake = m_Intake;
         this.shooter = m_Shooter;
+        this.climber = m_Climber;
 
         addRequirements(m_Shooter);
         addRequirements(m_Intake);
-        
+        addRequirements(m_Climber);
     }
 
     public void initialize()
     {
         intake.toSetPoint(0);
-        shooter.toSetPoint(1);
+        shooter.toSetPoint(0);
         intake.setRollers(-20);
         shooter.runFeederWheels(30);
+        shooter.runFlyWheels(0);
+        climber.toSetPoint(0);
 
         timer.restart();
     }
 
     public void execute()
     {
+        SmartDashboard.putNumber("timer: ", timer.get());
         isFinished();
     }
     
