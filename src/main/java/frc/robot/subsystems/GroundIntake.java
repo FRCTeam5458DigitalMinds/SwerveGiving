@@ -20,7 +20,7 @@ public class GroundIntake extends SubsystemBase {
   private final SparkPIDController intakeController;
   private RelativeEncoder intakeEncoder;
   private CANSparkMax intakeMotor;
-    private CANSparkMax rollerMotor;
+  private CANSparkMax rollerMotor;
 
 
   public GroundIntake() {

@@ -69,18 +69,24 @@ public class Shooter extends SubsystemBase{
     {
       return (degrees * 5.6889 * 218.75);
     }
+    public void runFeederAtSet(int OutputPercent)
+    {
+      if 
+        OutputPercent /= 100;
+        feederWheel.set(OutputPercent);
+
+    }
     
     public void runFlyWheels(int OutputPercent)
     {
-        OutputPercent /= 100;
-        flyWheelOne.set(OutputPercent);
+      OutputPercent /= 100;
+      flyWheelOne.set(OutputPercent);
     }
 
     public void runFeederWheels(int OutputPercent)
     {
-        OutputPercent /= 100;
-        feederWheel.set(OutputPercent);
-
+      OutputPercent /= 100;
+      feederWheel.set(OutputPercent);
     }  
     /**
      * An example method querying a boolean state of the subsystem (for example, a digital sensor).

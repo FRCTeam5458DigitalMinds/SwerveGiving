@@ -22,10 +22,11 @@ public class Shoot extends Command
     Limelight limelight;
 
     private double elevator_point;
+    //commented out bc no reasonable way to determine if we are there without doing math we would be "skipping"
+    //  private double podium_degrees = 33.333;
+    //  private double subwoofer_degrees = 65.662787;
 
-    private double podium_degrees = 33.333;
-    private double subwoofer_degrees = 65.662787;
-    private double x_distance;
+    private double distance;
     private double degrees;
 
     public Shoot(Climber m_Climber, Shooter m_Shooter, GroundIntake m_Intake, SwerveSubsystem m_SwerveSubsystem, Limelight m_Limelight) 
@@ -53,13 +54,20 @@ public class Shoot extends Command
 
         if (elevator_point <= 1)
         {
-            x_distance = Limelight.find_Tag_Y_Distance();
-            degrees = degreesFromDistance(x_distance);
-            shooter.runFlyWheels(80);
-            intake.setRollers(-50);
-            shooter.runFeederWheels(95);
-            shooter.toCustomSetpoint(degrees);
+            int cur_id = limelight.getID();
 
+            distance = limelight.find_Tag_Y_Distance(limelight.findTagHeightFromID(limelight.check_eligible_id(cur_id)));
+
+            if (distance != -1) 
+            {
+                degrees = (Math.atan(2.0447/distance));
+
+                shooter.toCustomSetpoint(degrees);
+                shooter.runFlyWheels(80);
+                intake.setRollers(-50);
+                shooter.runFeederAtSet(95);
+                //shooter.runFeederWheels(95);
+            }
             
             //CALL AUTOMATIC LIMELIGHTSHOOTING HERE!!!!
         } 
@@ -82,10 +90,5 @@ public class Shoot extends Command
     public boolean isFinished()
     {
         return true;
-    }
-
-    public double degreesFromDistance(double distance)
-    {
-        return (Math.atan(2.0447/distance));
     }
 }
