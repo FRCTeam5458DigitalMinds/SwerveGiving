@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -13,68 +14,60 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends SubsystemBase{
     private TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.Shooter_ID);
 
-    private Timer feeder_timer = new Timer();
-
     private TalonFX flyWheelOne = new TalonFX(Constants.ShooterConstants.FlyWheelOne_ID);
     private TalonFX flyWheelTwo = new TalonFX(Constants.ShooterConstants.FlyWheelTwo_ID);
     private TalonFX feederWheel = new TalonFX(Constants.ShooterConstants.FeederWheel_ID);
 
-    private double intakeHandoff = 38204.5191;
-    private double climbingPosition = 60729.0075;
-    private double ampPosition = 109884.6591;
+    private double intakeHandoff = 18.65451389;
+    private double climbingPosition = 29.65277778;
+    private double ampPosition = 53.65451389;
 
     private double[] m_setPoints = {0, intakeHandoff, climbingPosition, ampPosition};
 
   /** Creates a new ExampleSubsystem. */
     public Shooter() {
-        shooterMotor.setPosition(0);
-        //flyWheelTwo.f(flyWheelOne);
+      shooterMotor.setPosition(0);
+      flyWheelTwo.setControl(new Follower(13, false));
 
-        var talonFXConfigs = new TalonFXConfiguration();
+      var talonFXConfigs = new TalonFXConfiguration();
 
-        var slot0Configs = talonFXConfigs.Slot0;
+      var slot0Configs = talonFXConfigs.Slot0;
 
+      slot0Configs.kV = Constants.ShooterConstants.kV;
+      slot0Configs.kP = Constants.ShooterConstants.kP;
+      slot0Configs.kI = Constants.ShooterConstants.kI;
+      slot0Configs.kD = Constants.ShooterConstants.kD;
 
-        slot0Configs.kV = Constants.ShooterConstants.kV;
-        slot0Configs.kP = Constants.ShooterConstants.kP;
-        slot0Configs.kI = Constants.ShooterConstants.kI;
-        slot0Configs.kD = Constants.ShooterConstants.kD;
-
-        /* var motionMagicConfigs = talonFXConfigs.MotionMagic;
-        motionMagicConfigs.MotionMagicCruiseVelocity = 0;
-        motionMagicConfigs.MotionMagicExpo_kV = 0.12;
-        motionMagicConfigs.MotionMagicExpo_kA = 0.1; */
-
-        shooterMotor.getConfigurator().apply(slot0Configs, 0.020);
+      shooterMotor.getConfigurator().apply(slot0Configs, 0.020);
     }
 
     public void toSetPoint(int setPoint) 
     {
-        var motorPosSignal = shooterMotor.getRotorPosition();
-        var motorPos = motorPosSignal.getValue();
+      var motorPosSignal = shooterMotor.getRotorPosition();
+      var motorPos = motorPosSignal.getValue();
 
-        final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
-        shooterMotor.setControl(m_PIDRequest.withPosition(m_setPoints[setPoint]));
+      final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
+      shooterMotor.setControl(m_PIDRequest.withPosition(m_setPoints[setPoint]));
     }
 
     public void toCustomSetpoint(double degrees)
     {
-      double toTicks = degreesToTicks(degrees);
+      double toTicks = degreesToRotations(degrees);
 
       final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
       shooterMotor.setControl(m_PIDRequest.withPosition(toTicks));
     }
 
-    public double degreesToTicks(double degrees)
+    public double degreesToRotations(double degrees)
     {
-      return (degrees * 5.6889 * 218.75);
+      return (degrees / 360. * 218.75);
     }
+
     public void runFeederAtSet(int OutputPercent)
     {
-      if 
-        OutputPercent /= 100;
-        feederWheel.set(OutputPercent);
 
+      //OutputPercent /= 100;
+      //feederWheel.set(OutputPercent);
     }
     
     public void runFlyWheels(int OutputPercent)
@@ -88,23 +81,30 @@ public class Shooter extends SubsystemBase{
       OutputPercent /= 100;
       feederWheel.set(OutputPercent);
     }  
+    public double getV()
+    {
+      return shooterMotor.getVelocity().getValueAsDouble();
+    }
     /**
      * An example method querying a boolean state of the subsystem (for example, a digital sensor).
      *
      * @return value of some boolean subsystem state, such as a digital sensor.
      */
     @Override
-    public void periodic() {
+    public void periodic() 
+    {
     // This method will be called once per scheduler run
     }
 
     @Override
-    public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+    public void simulationPeriodic() 
+    {
+      // This method will be called once per scheduler run during simulation
     }
+
     public void print(String message)
-  {
-    SmartDashboard.putString("DB/String 3", message);
-  }
+    {
+      SmartDashboard.putString("DB/String 3", message);
+    }
 }
 

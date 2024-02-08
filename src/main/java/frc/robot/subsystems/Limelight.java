@@ -9,7 +9,7 @@ import java.lang.Math;
 public class Limelight extends SubsystemBase
 {
     //String m_Side = Robot.;
-    double[] tagHeights = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    double[] tagHeights = {1.22, 1.22, 1.32, 1.32, 1.22, 1.22, 1.32, 1.32, 1.22, 1.22, 1.21, 1.21, 1.21, 1.21, 1.21, 1.21};
     double m_hasValidTarget = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     double m_x_AngleOffset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     double m_y_AngleOffset = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);

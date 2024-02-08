@@ -50,8 +50,6 @@ public class Shoot extends Command
         this.elevator_point = climber.getInches();
         intake.toSetPoint(0);
 
-
-
         if (elevator_point <= 1)
         {
             int cur_id = limelight.getID();
@@ -65,8 +63,8 @@ public class Shoot extends Command
                 shooter.toCustomSetpoint(degrees);
                 shooter.runFlyWheels(80);
                 intake.setRollers(-50);
-                shooter.runFeederAtSet(95);
-                //shooter.runFeederWheels(95);
+
+                isFinished(true);
             }
             
             //CALL AUTOMATIC LIMELIGHTSHOOTING HERE!!!!
@@ -76,19 +74,38 @@ public class Shoot extends Command
             intake.setRollers(0);
             shooter.runFlyWheels(80);
             shooter.runFeederWheels(95);
-            
+            isFinished(false);
         }
         else 
         {
             intake.setRollers(0);
             shooter.runFlyWheels(-50);
             shooter.runFeederWheels(-50);
+            isFinished(false);
         }
-        isFinished();
+        
     }
-    
-    public boolean isFinished()
+
+    public void execute() 
     {
-        return true;
+        isFinished(true);
+    }
+
+    public boolean isFinished(boolean keepChecking)
+    {
+        if (!keepChecking)
+        {
+            return true;
+        } 
+
+        if(Math.abs(shooter.getV()) > 0.25)
+        {
+            return false;
+        } 
+        else 
+        {
+            shooter.runFeederWheels(95);
+            return true;
+        }
     }
 }
