@@ -32,8 +32,8 @@ public final class Constants {
     public static final int[] apTagGyrosRed = {0, 0, 180, 180, -90, 0, 0, 0, 0, 0, -60, 60, 180, 0, 0, 0};
     public static final int[] apTagGyrosBlue = {0, 0, 0, 0, 90, 90, 180, 180, 0, 0, 0, 0, 0, 180, 60, -60};
         /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(20.750);//to find
-    public static final double wheelBase = Units.inchesToMeters(20.750);//to find
+    public static final double trackWidth = Units.inchesToMeters(26.5);//to find
+    public static final double wheelBase = Units.inchesToMeters(26.5);//to find
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     public static final double wheelCircumference = wheelDiameter * Math.PI;
 
@@ -102,9 +102,9 @@ public final class Constants {
         /* Module Specific Constants */
     /* Front Left Module - Module 0 */
     public static final class Mod0 {
-      public static final int driveMotorID = 2; 
-      public static final int angleMotorID = 1; 
-      public static final int canCoderID = 36;
+      public static final int driveMotorID = 6; 
+      public static final int angleMotorID = 5; 
+      public static final int canCoderID = 34;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-5786.719);
     /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -119,9 +119,9 @@ public final class Constants {
 
     /* Front Right Module - Module 1 */
     public static final class Mod1 {
-      public static final int driveMotorID = 4;
-      public static final int angleMotorID = 3;
-      public static final int canCoderID = 38;
+      public static final int driveMotorID = 8;
+      public static final int angleMotorID = 7;
+      public static final int canCoderID = 32;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-2751.680);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -136,9 +136,9 @@ public final class Constants {
 
     /* Back Left Module - Module 2 */
     public static final class Mod2 {
-      public static final int driveMotorID = 8;
-      public static final int angleMotorID = 7;
-      public static final int canCoderID = 32;
+      public static final int driveMotorID = 4;
+      public static final int angleMotorID = 3;
+      public static final int canCoderID = 38;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-298.818);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -153,9 +153,9 @@ public final class Constants {
 
     /* Back Right Module - Module 3 */
     public static final class Mod3 {
-      public static final int driveMotorID = 6;
-      public static final int angleMotorID = 5;
-      public static final int canCoderID = 34;
+      public static final int driveMotorID = 2;
+      public static final int angleMotorID = 1;
+      public static final int canCoderID = 36;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-349.805);
         /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -195,9 +195,9 @@ public final class Constants {
   }
 
   public static final class LimelightConstants {
-    public static final double m_limelightMountAngleDegree = 38.1;
-    public static final double m_limelightLensHeightInches = 7.125;
-    public static final double m_limelightToFrontOfRobot = 17.5;
+    public static final double m_limelightMountAngleDegree = 50.25;
+    public static final double m_limelightLensHeightInches = 10;
+    public static final double m_limelightToFrontOfRobot = 0;
   }
   public static final class IntakeConstants {
     public static final int intake_ID = 10;
