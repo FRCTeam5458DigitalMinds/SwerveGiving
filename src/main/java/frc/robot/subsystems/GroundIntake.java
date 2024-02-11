@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class GroundIntake extends SubsystemBase {
-  private double shooterHandoff = 550.5323;
-  private double deployPosition = 1479.173;
-  private double origin = 0;
+  private double deployPosition = -33.9;
+  private double climbingPosition = -13.104;
+  private double origin = -2;
 
-  private double[] m_setPoints = {origin, deployPosition, shooterHandoff};
+  private double[] m_setPoints = {origin, deployPosition, climbingPosition};
   
   private final SparkPIDController intakeController;
   private RelativeEncoder intakeEncoder;
@@ -45,7 +45,7 @@ public class GroundIntake extends SubsystemBase {
     intakeController.setFeedbackDevice(intakeEncoder);
     intakeController.setSmartMotionMaxAccel(Constants.IntakeConstants.max_accel, 0);
 
-    intakeController.setSmartMotionMinOutputVelocity(Constants.IntakeConstants.min_vel, 0);
+   // intakeController.setSmartMotionMinOutputVelocity(Constants.IntakeConstants.min_vel, 0);
     intakeController.setSmartMotionMaxVelocity(Constants.IntakeConstants.max_vel, 0);
     intakeController.setSmartMotionAllowedClosedLoopError(Constants.IntakeConstants.allowed_error, 0);
   }
@@ -78,6 +78,11 @@ public class GroundIntake extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public double getEncoder()
+  {
+    return intakeEncoder.getPosition();
   }
  
   public void print(String message)

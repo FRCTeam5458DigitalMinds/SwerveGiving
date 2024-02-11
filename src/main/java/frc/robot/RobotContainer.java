@@ -18,8 +18,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.PathPlannerExample;
 import frc.robot.autos.FourNoteAuto;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.Test;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.Handoff;
+import frc.robot.commands.IntakeTest;
 import frc.robot.commands.MoveClimber;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.Shoot;
@@ -160,6 +162,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("deployIntake3", new InstantCommand(() -> m_GroundIntake.print("intake3")));
     NamedCommands.registerCommand("ampScore", new InstantCommand(() -> m_GroundIntake.print("Amp Score!")));
 
+    m_XboxController.button(Button.kY.value).onTrue(new IntakeTest(m_GroundIntake, 1));
+    m_XboxController.button(Button.kX.value).onTrue(new IntakeTest(m_GroundIntake, 0));
+    
+    m_XboxController.button(Button.kA.value).onTrue(new Test(m_Shooter, 1));
+    m_XboxController.button(Button.kB.value).onTrue(new Test(m_Shooter, 0));
+    /*
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
     m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake, m_Climber));
@@ -172,6 +180,7 @@ public class RobotContainer {
 
     m_XboxController.axisGreaterThan(2, 0).whileTrue(new DeployIntake(m_GroundIntake, m_Shooter, m_Climber));
     m_XboxController.axisGreaterThan(2, 0).onFalse(new RetractIntake(m_GroundIntake, m_Shooter, m_Climber));
+    */
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));
 
@@ -180,11 +189,6 @@ public class RobotContainer {
   public void resetWheels()
   {
     m_SwerveSubsystem.setWheelsToX();
-  }
-  public void Rotation_Snap()
-  {
-   m_numYPressed += 1;
-
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

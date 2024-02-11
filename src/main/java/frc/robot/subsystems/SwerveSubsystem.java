@@ -92,9 +92,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
   //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
   {
-    SmartDashboard.putString("DB/String 3", Double.toString(-pigeon.getAngle()));
-    SmartDashboard.putString("DB/String 1", Double.toString(pigeon.getYaw().getValueAsDouble()));  
-    SwerveModuleState[] swerveModuleStates =
+      SwerveModuleState[] swerveModuleStates =
       Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(
           //fancy way to do an if else statement 
           //if field relative == true, use field relative stuff, otherwise use robot centric
@@ -110,22 +108,22 @@ public class SwerveSubsystem extends SubsystemBase {
   {
     mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
   }
-}
+  }
   public void driveRobotRelative(ChassisSpeeds chassis)
   //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
   {
     SwerveModuleState[] swerveModuleStates =
       Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(chassis);
-  //sets to top speed if above top speed
-  SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
- 
-  SmartDashboard.putString("DB/String 1", Double.toString(pigeon.getYaw().getValueAsDouble()));  
-  //set states for all 4 modules
-  for (SwerveModule mod : mSwerveMods) 
-  {
-    mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true);
+    //sets to top speed if above top speed
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
+  
+    SmartDashboard.putString("DB/String 1", Double.toString(pigeon.getYaw().getValueAsDouble()));  
+    //set states for all 4 modules
+    for (SwerveModule mod : mSwerveMods) 
+    {
+      mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true);
+    }
   }
-}
 
  
   /* Used by SwerveControllerCommand in Auto */

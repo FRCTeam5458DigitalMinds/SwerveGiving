@@ -207,20 +207,20 @@ public final class Constants {
     //largely ignore the integral value as it can quickly cause problems
 
     //targets the errors over time
-    public static final double kI = 0.000;
+    public static final double kI = 0.00000;
 
     //targets the errors in positioning
-    public static final double kP = 0.0075;
+    public static final double kP = 0.15;
     //targets the errors in velocity
-    public static final double kD = 0.0070;
+    public static final double kD = 0.6;
 
-    public static final double FF = 0.00035;
+    public static final double FF = 0.0011;
 
     public static final double max_vel = 2000;
     public static final double min_vel = 0;
     public static final double max_accel = 1500;
 
-    public static final double allowed_error = 0.007;
+    public static final double allowed_error = 0.04;
   }
   public static final class ShooterConstants {
     public static final int Shooter_ID = 12;
@@ -229,11 +229,10 @@ public final class Constants {
     public static final int FlyWheelTwo_ID = 14;
     public static final int FeederWheel_ID = 15;
 
-    public static final double kI = 0.05;
-    public static final double kP = 0.15;
-    public static final double kD = 0.15;
-    public static final double kV = 0.12;
-    //public static final double allowed_error = 0.007;
+    public static final double kI = 0.0000001;
+    public static final double kP = 0.1;
+    public static final double kD = 0.0001;
+    public static final double kV = 0.1;
   }
   public static final class ClimbConstants {
     public static final int climb_ID1 = 16;

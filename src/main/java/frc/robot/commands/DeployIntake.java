@@ -29,15 +29,8 @@ public class DeployIntake extends Command {
         elevator.toSetPoint(0);
         shooter.runFeederWheels(0);
         shooter.runFlyWheels(0);
-        shooter.toSetPoint(1);
+       // shooter.toSetPoint(1);
         intake.setRollers(50);
         intake.toSetPoint(1);
-
-       // isFinished();
     }
-
-    /*public boolean isFinished()
-    {
-        return true;
-    }*/
 }

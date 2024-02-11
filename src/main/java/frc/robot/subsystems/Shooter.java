@@ -18,15 +18,16 @@ public class Shooter extends SubsystemBase{
     private TalonFX flyWheelTwo = new TalonFX(Constants.ShooterConstants.FlyWheelTwo_ID);
     private TalonFX feederWheel = new TalonFX(Constants.ShooterConstants.FeederWheel_ID);
 
-    private double intakeHandoff = 18.65451389;
-    private double climbingPosition = 29.65277778;
-    private double ampPosition = 53.65451389;
+    private double intakeHandoff = 18;
+    private double climbingPosition = 38.56;
+    private double ampPosition = 49;
 
     private double[] m_setPoints = {0, intakeHandoff, climbingPosition, ampPosition};
 
   /** Creates a new ExampleSubsystem. */
     public Shooter() {
       shooterMotor.setPosition(0);
+      flyWheelOne.setInverted(true);
       flyWheelTwo.setControl(new Follower(13, false));
 
       var talonFXConfigs = new TalonFXConfiguration();
@@ -48,6 +49,9 @@ public class Shooter extends SubsystemBase{
 
       final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
       shooterMotor.setControl(m_PIDRequest.withPosition(m_setPoints[setPoint]));
+      SmartDashboard.putNumber("supposed setpoint", setPoint);
+
+      
     }
 
     public void toCustomSetpoint(double degrees)
@@ -70,15 +74,21 @@ public class Shooter extends SubsystemBase{
       //feederWheel.set(OutputPercent);
     }
     
-    public void runFlyWheels(int OutputPercent)
+    public double getEncoder()
     {
-      OutputPercent /= 100;
+      return shooterMotor.getPosition().getValueAsDouble();
+    }
+    public void runFlyWheels(double OutputPercent)
+    {
+      OutputPercent /= 100.;
+      SmartDashboard.putString("DB/String 9", Double.toString(OutputPercent));
       flyWheelOne.set(OutputPercent);
     }
 
-    public void runFeederWheels(int OutputPercent)
+    public void runFeederWheels(double OutputPercent)
     {
-      OutputPercent /= 100;
+      OutputPercent /= 100.;
+      SmartDashboard.putString("DB/String 0", Double.toString(OutputPercent));
       feederWheel.set(OutputPercent);
     }  
     public double getV()
