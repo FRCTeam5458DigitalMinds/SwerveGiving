@@ -162,11 +162,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("deployIntake3", new InstantCommand(() -> m_GroundIntake.print("intake3")));
     NamedCommands.registerCommand("ampScore", new InstantCommand(() -> m_GroundIntake.print("Amp Score!")));
 
-    m_XboxController.button(Button.kY.value).onTrue(new IntakeTest(m_GroundIntake, 1));
-    m_XboxController.button(Button.kX.value).onTrue(new IntakeTest(m_GroundIntake, 0));
+   // m_XboxController.button(Button.kY.value).onTrue(new IntakeTest(m_GroundIntake, 1));
+    //m_XboxController.button(Button.kX.value).onTrue(new IntakeTest(m_GroundIntake, 0));
     
-    m_XboxController.button(Button.kA.value).onTrue(new Test(m_Shooter, 1));
-    m_XboxController.button(Button.kB.value).onTrue(new Test(m_Shooter, 0));
+    m_XboxController.button(Button.kA.value).onTrue(new Test(m_Shooter, 0));
+    m_XboxController.button(Button.kB.value).onTrue(new Test(m_Shooter, 1));
+  
+    m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake, m_Climber));
     /*
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
@@ -177,10 +179,10 @@ public class RobotContainer {
     m_XboxController.povUp().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 2));
 
     m_XboxController.axisGreaterThan(3, 0).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_SwerveSubsystem, m_Limelight));
-
+*/
     m_XboxController.axisGreaterThan(2, 0).whileTrue(new DeployIntake(m_GroundIntake, m_Shooter, m_Climber));
     m_XboxController.axisGreaterThan(2, 0).onFalse(new RetractIntake(m_GroundIntake, m_Shooter, m_Climber));
-    */
+    
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));
    // m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> Rotation_Snap()));
 

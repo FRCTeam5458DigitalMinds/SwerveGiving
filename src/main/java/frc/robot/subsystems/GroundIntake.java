@@ -44,7 +44,8 @@ public class GroundIntake extends SubsystemBase {
 
     intakeController.setFeedbackDevice(intakeEncoder);
     intakeController.setSmartMotionMaxAccel(Constants.IntakeConstants.max_accel, 0);
-
+    intakeMotor.setIdleMode(IdleMode.kBrake);
+    rollerMotor.setIdleMode(IdleMode.kCoast);
    // intakeController.setSmartMotionMinOutputVelocity(Constants.IntakeConstants.min_vel, 0);
     intakeController.setSmartMotionMaxVelocity(Constants.IntakeConstants.max_vel, 0);
     intakeController.setSmartMotionAllowedClosedLoopError(Constants.IntakeConstants.allowed_error, 0);
@@ -55,10 +56,10 @@ public class GroundIntake extends SubsystemBase {
     intakeController.setReference(m_setPoints[setPoint], CANSparkMax.ControlType.kSmartMotion);
   }
 
-  public void setRollers(int OutputPercent)
+  public void setRollers(double OutputPercent)
   {
-      OutputPercent /= 100;
-      rollerMotor.set(OutputPercent);
+      OutputPercent /= 100.;
+      rollerMotor.set(-OutputPercent);
   
   }
   /* public void check vFinished()

@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -13,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase{
     private TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.Shooter_ID);
+    private final MotionMagicVoltage M_MMREQ = new MotionMagicVoltage(0);
 
     private TalonFX flyWheelOne = new TalonFX(Constants.ShooterConstants.FlyWheelOne_ID);
     private TalonFX flyWheelTwo = new TalonFX(Constants.ShooterConstants.FlyWheelTwo_ID);
@@ -24,42 +28,71 @@ public class Shooter extends SubsystemBase{
 
     private double[] m_setPoints = {0, intakeHandoff, climbingPosition, ampPosition};
 
-  /** Creates a new ExampleSubsystem. */
+  /** Creates a new ExampleSubsyste m. */
     public Shooter() {
+      TalonFXConfiguration cfg = new TalonFXConfiguration();
+      MotionMagicConfigs mm = cfg.MotionMagic;
+      mm.MotionMagicCruiseVelocity = 5;
+      mm.MotionMagicAcceleration = 10;
+      mm.MotionMagicJerk = 50;
+
       shooterMotor.setPosition(0);
       flyWheelOne.setInverted(true);
       flyWheelTwo.setControl(new Follower(13, false));
 
-      var talonFXConfigs = new TalonFXConfiguration();
+     // var talonFXConfigs = new TalonFXConfiguration();
 
-      var slot0Configs = talonFXConfigs.Slot0;
+      Slot0Configs slot0Configs = cfg.Slot0;
 
-      slot0Configs.kV = Constants.ShooterConstants.kV;
-      slot0Configs.kP = Constants.ShooterConstants.kP;
-      slot0Configs.kI = Constants.ShooterConstants.kI;
-      slot0Configs.kD = Constants.ShooterConstants.kD;
+      //slot0Configs.kV = Constants.ShooterConstants.kV;
+      slot0Configs.kP = 10;
+      slot0Configs.kI = 0;
+      slot0Configs.kD = 0.1;
+      slot0Configs.kS = 0.25;
+      slot0Configs.kV = 0.12;
 
+      FeedbackConfigs fdb = cfg.Feedback;
+      shooterMotor.getConfigurator().apply(cfg);
       shooterMotor.getConfigurator().apply(slot0Configs, 0.020);
-    }
+      
+      SmartDashboard.putNumber("shooter P", slot0Configs.kP);
+      SmartDashboard.putNumber("shooter I", slot0Configs.kI);
+      SmartDashboard.putNumber("shooter D", slot0Configs.kD);
+      SmartDashboard.putNumber("shooter V", slot0Configs.kV);
+      }
 
     public void toSetPoint(int setPoint) 
     {
       var motorPosSignal = shooterMotor.getRotorPosition();
       var motorPos = motorPosSignal.getValue();
 
-      final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
-      shooterMotor.setControl(m_PIDRequest.withPosition(m_setPoints[setPoint]));
-      SmartDashboard.putNumber("supposed setpoint", setPoint);
+   //   shooterMotor.get
+      //inal MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0).withSlot(0);
+      shooterMotor.setControl(M_MMREQ.withPosition(m_setPoints[setPoint]).withSlot(0));
+      SmartDashboard.putNumber("supposed setpoint", m_setPoints[setPoint]);
+      SmartDashboard.putNumber("supposed output", shooterMotor.get());
+      SmartDashboard.putNumber("supposed error", shooterMotor.getClosedLoopError().getValueAsDouble());
 
-      
+  
+    }
+    public void manualControl()
+    {
+      shooterMotor.set(0.05);
+      SmartDashboard.putNumber("supposed output", shooterMotor.get());
+
+    }
+    public void stopControl()
+    {
+      shooterMotor.set(0);
+      SmartDashboard.putNumber("supposed output", shooterMotor.get());
     }
 
     public void toCustomSetpoint(double degrees)
     {
       double toTicks = degreesToRotations(degrees);
 
-      final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
-      shooterMotor.setControl(m_PIDRequest.withPosition(toTicks));
+     // final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
+      shooterMotor.setControl(M_MMREQ.withPosition(toTicks).withSlot(0));
     }
 
     public double degreesToRotations(double degrees)

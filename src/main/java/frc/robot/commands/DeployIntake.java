@@ -26,11 +26,11 @@ public class DeployIntake extends Command {
 
     public void initialize() {
         //ADD OR STATEMENT FOR FLIGHT SENSOR
-        elevator.toSetPoint(0);
+       // elevator.toSetPoint(0);
         shooter.runFeederWheels(0);
         shooter.runFlyWheels(0);
-       // shooter.toSetPoint(1);
-        intake.setRollers(50);
+        shooter.toSetPoint(1);
+        intake.setRollers(80);
         intake.toSetPoint(1);
     }
 }

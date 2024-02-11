@@ -25,14 +25,21 @@ public class Test extends Command
     {
         this.shooter = m_Shooter;
         this.SETPOINT = setpoint;
-
         addRequirements(m_Shooter);
     }
     
     public void initialize()
-    {            
+    {  
+        if (SETPOINT == 0)
+        {
+            shooter.toCustomSetpoint(45);
+        }
+        else
+        {        
+            shooter.runFlyWheels(95);
+            shooter.runFeederAtSet(80);
+        }
 
-        shooter.toSetPoint(SETPOINT);
         SmartDashboard.putNumber("ShooterEncoder", shooter.getEncoder());
     
         isFinished();

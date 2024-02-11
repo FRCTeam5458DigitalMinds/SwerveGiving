@@ -28,7 +28,7 @@ public class RetractIntake extends Command {
         //ADD OR STATEMENT FOR FLIGHT SENSOR
         intake.setRollers(0);
         intake.toSetPoint(0);
-        elevator.toSetPoint(0);
+      //  elevator.toSetPoint(0);
         shooter.toSetPoint(0);
         shooter.runFeederWheels(0);
         shooter.runFlyWheels(0);
