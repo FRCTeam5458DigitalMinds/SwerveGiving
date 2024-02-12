@@ -165,9 +165,10 @@ public class RobotContainer {
    // m_XboxController.button(Button.kY.value).onTrue(new IntakeTest(m_GroundIntake, 1));
     //m_XboxController.button(Button.kX.value).onTrue(new IntakeTest(m_GroundIntake, 0));
     
-    m_XboxController.button(Button.kA.value).onTrue(new Test(m_Shooter, 0));
-    m_XboxController.button(Button.kB.value).onTrue(new Test(m_Shooter, 1));
-  
+    m_XboxController.button(Button.kA.value).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_SwerveSubsystem, m_Limelight, 0));
+    m_XboxController.button(Button.kB.value).whileTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_SwerveSubsystem, m_Limelight, 1));
+    m_XboxController.button(Button.kB.value).onFalse(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_SwerveSubsystem, m_Limelight, 2));
+
     m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake, m_Climber));
     /*
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));

@@ -210,11 +210,11 @@ public final class Constants {
     public static final double kI = 0.00000;
 
     //targets the errors in positioning
-    public static final double kP = 0.1;
+    public static final double kP = 0.075;
     //targets the errors in velocity
-    public static final double kD = 0.0;
+    public static final double kD = 0.005;
 
-    public static final double FF = 0.00001;
+    public static final double FF = 0.0002;
 
     public static final double max_vel = 1500;
     public static final double min_vel = 0;

@@ -3,7 +3,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -39,17 +41,26 @@ public class Shooter extends SubsystemBase{
       shooterMotor.setPosition(0);
       flyWheelOne.setInverted(true);
       flyWheelTwo.setControl(new Follower(13, false));
+    
+     // feederWheel.getConfigurator().apply(new VoltageConfigs());
 
      // var talonFXConfigs = new TalonFXConfiguration();
 
       Slot0Configs slot0Configs = cfg.Slot0;
+      Slot1Configs slot1Configs = cfg.Slot1;
 
       //slot0Configs.kV = Constants.ShooterConstants.kV;
-      slot0Configs.kP = 10;
+      slot0Configs.kP = 17;
       slot0Configs.kI = 0;
-      slot0Configs.kD = 0.1;
-      slot0Configs.kS = 0.25;
-      slot0Configs.kV = 0.12;
+      slot0Configs.kD = 0.3;
+      slot0Configs.kS = 0.75;
+      slot0Configs.kV = 0.36;
+
+      slot1Configs.kP = 4.8;
+      slot1Configs.kI = 0;
+      slot1Configs.kD = 0.1;
+      slot1Configs.kS = 0.25;
+      slot1Configs.kV = 0.12;
 
       FeedbackConfigs fdb = cfg.Feedback;
       shooterMotor.getConfigurator().apply(cfg);
@@ -68,7 +79,15 @@ public class Shooter extends SubsystemBase{
 
    //   shooterMotor.get
       //inal MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0).withSlot(0);
-      shooterMotor.setControl(M_MMREQ.withPosition(m_setPoints[setPoint]).withSlot(0));
+      if (setPoint == 0) 
+      {
+        shooterMotor.setControl(M_MMREQ.withPosition(m_setPoints[setPoint]).withSlot(1));
+      }
+      else
+      {
+        shooterMotor.setControl(M_MMREQ.withPosition(m_setPoints[setPoint]).withSlot(0));
+      }
+
       SmartDashboard.putNumber("supposed setpoint", m_setPoints[setPoint]);
       SmartDashboard.putNumber("supposed output", shooterMotor.get());
       SmartDashboard.putNumber("supposed error", shooterMotor.getClosedLoopError().getValueAsDouble());
@@ -87,6 +106,10 @@ public class Shooter extends SubsystemBase{
       SmartDashboard.putNumber("supposed output", shooterMotor.get());
     }
 
+    /*public boolean atSetPoint(int SETPOINT)
+    {
+      return shooterMotor.get
+    }*/
     public void toCustomSetpoint(double degrees)
     {
       double toTicks = degreesToRotations(degrees);

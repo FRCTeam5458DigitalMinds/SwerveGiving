@@ -33,9 +33,9 @@ public class Handoff extends Command{
     {
         intake.toSetPoint(0);
         shooter.toSetPoint(0);
-        intake.setRollers(-20);
-        shooter.runFeederWheels(30);
-        shooter.runFlyWheels(0);
+        intake.setRollers(-90);
+        shooter.runFeederWheels(10);
+        shooter.runFlyWheels(5);
       //  climber.toSetPoint(0);
 
         timer.restart();
