@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -50,11 +51,11 @@ public class Shooter extends SubsystemBase{
       Slot1Configs slot1Configs = cfg.Slot1;
 
       //slot0Configs.kV = Constants.ShooterConstants.kV;
-      slot0Configs.kP = 17;
+      slot0Configs.kP = 35;
       slot0Configs.kI = 0;
-      slot0Configs.kD = 0.3;
-      slot0Configs.kS = 0.75;
-      slot0Configs.kV = 0.36;
+      slot0Configs.kD = 0.2;
+      slot0Configs.kS = 0.4;
+      slot0Configs.kV = 0.2;
 
       slot1Configs.kP = 4.8;
       slot1Configs.kI = 0;
@@ -65,6 +66,7 @@ public class Shooter extends SubsystemBase{
       FeedbackConfigs fdb = cfg.Feedback;
       shooterMotor.getConfigurator().apply(cfg);
       shooterMotor.getConfigurator().apply(slot0Configs, 0.020);
+      shooterMotor.getConfigurator().apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(30), 0.02);
       
       SmartDashboard.putNumber("shooter P", slot0Configs.kP);
       SmartDashboard.putNumber("shooter I", slot0Configs.kI);
