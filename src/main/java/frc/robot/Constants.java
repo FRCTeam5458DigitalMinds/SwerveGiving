@@ -105,7 +105,7 @@ public final class Constants {
       public static final int driveMotorID = 6; 
       public static final int angleMotorID = 5; 
       public static final int canCoderID = 34;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-5786.719);
+      public static final Rotation2d angleOffset = Rotation2d.fromRotations(0.846680);
     /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -122,7 +122,7 @@ public final class Constants {
       public static final int driveMotorID = 8;
       public static final int angleMotorID = 7;
       public static final int canCoderID = 32;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-2751.680);
+      public static final Rotation2d angleOffset = Rotation2d.fromRotations(0.812012);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -139,7 +139,7 @@ public final class Constants {
       public static final int driveMotorID = 4;
       public static final int angleMotorID = 3;
       public static final int canCoderID = 38;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-298.818);
+      public static final Rotation2d angleOffset = Rotation2d.fromRotations(0.213379);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -156,7 +156,7 @@ public final class Constants {
       public static final int driveMotorID = 2;
       public static final int angleMotorID = 1;
       public static final int canCoderID = 36;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-349.805);
+      public static final Rotation2d angleOffset = Rotation2d.fromRotations(.822754);
         /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune

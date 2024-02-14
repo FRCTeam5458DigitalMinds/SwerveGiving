@@ -27,6 +27,7 @@ public class GroundIntake extends SubsystemBase {
     intakeMotor = new CANSparkMax(Constants.IntakeConstants.intake_ID, MotorType.kBrushless);
     rollerMotor = new CANSparkMax(Constants.IntakeConstants.roller_ID, MotorType.kBrushless);
     intakeEncoder = intakeMotor.getEncoder();
+    intakeMotor.restoreFactoryDefaults();
     intakeMotor.setIdleMode(IdleMode.kCoast);
     intakeMotor.burnFlash();
     rollerMotor.setIdleMode(IdleMode.kBrake);

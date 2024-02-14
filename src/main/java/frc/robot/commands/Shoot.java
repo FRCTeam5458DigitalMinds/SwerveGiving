@@ -94,7 +94,8 @@ public class Shoot extends Command
         }
         else if (MODE == 1)
         {
-            shooter.toCustomSetpoint(45);
+            //shooter.toSetPoint(0);
+            shooter.toCustomSetpoint(20);
             shooter.runFeederWheels(0);
             shooter.runFlyWheels(0);
             

@@ -28,6 +28,7 @@ public class Shooter extends SubsystemBase{
     private double intakeHandoff = 18;
     private double climbingPosition = 38.56;
     private double ampPosition = 49;
+    private double m_ff;
 
     private double[] m_setPoints = {0, intakeHandoff, climbingPosition, ampPosition};
 
@@ -35,9 +36,9 @@ public class Shooter extends SubsystemBase{
     public Shooter() {
       TalonFXConfiguration cfg = new TalonFXConfiguration();
       MotionMagicConfigs mm = cfg.MotionMagic;
-      mm.MotionMagicCruiseVelocity = 5;
-      mm.MotionMagicAcceleration = 10;
-      mm.MotionMagicJerk = 50;
+      mm.MotionMagicCruiseVelocity = 50;
+      mm.MotionMagicAcceleration = 45;
+      mm.MotionMagicJerk = 70;
 
       shooterMotor.setPosition(0);
       flyWheelOne.setInverted(true);
@@ -51,11 +52,12 @@ public class Shooter extends SubsystemBase{
       Slot1Configs slot1Configs = cfg.Slot1;
 
       //slot0Configs.kV = Constants.ShooterConstants.kV;
-      slot0Configs.kP = 35;
-      slot0Configs.kI = 0;
-      slot0Configs.kD = 0.2;
-      slot0Configs.kS = 0.4;
-      slot0Configs.kV = 0.2;
+      slot0Configs.kP = 45;
+      slot0Configs.kI = 10.0;
+      slot0Configs.kD = 0.1;
+      slot0Configs.kS = 0.3;
+      slot0Configs.kV = 0.1;
+      m_ff = .1;
 
       slot1Configs.kP = 4.8;
       slot1Configs.kI = 0;
@@ -66,8 +68,9 @@ public class Shooter extends SubsystemBase{
       FeedbackConfigs fdb = cfg.Feedback;
       shooterMotor.getConfigurator().apply(cfg);
       shooterMotor.getConfigurator().apply(slot0Configs, 0.020);
+  
       shooterMotor.getConfigurator().apply(new CurrentLimitsConfigs().withSupplyCurrentLimit(30), 0.02);
-      
+
       SmartDashboard.putNumber("shooter P", slot0Configs.kP);
       SmartDashboard.putNumber("shooter I", slot0Configs.kI);
       SmartDashboard.putNumber("shooter D", slot0Configs.kD);
@@ -83,11 +86,12 @@ public class Shooter extends SubsystemBase{
       //inal MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0).withSlot(0);
       if (setPoint == 0) 
       {
+
         shooterMotor.setControl(M_MMREQ.withPosition(m_setPoints[setPoint]).withSlot(1));
       }
       else
       {
-        shooterMotor.setControl(M_MMREQ.withPosition(m_setPoints[setPoint]).withSlot(0));
+        shooterMotor.setControl(M_MMREQ.withPosition(m_setPoints[setPoint]).withFeedForward(m_ff).withSlot(0));
       }
 
       SmartDashboard.putNumber("supposed setpoint", m_setPoints[setPoint]);
@@ -117,7 +121,7 @@ public class Shooter extends SubsystemBase{
       double toTicks = degreesToRotations(degrees);
 
      // final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
-      shooterMotor.setControl(M_MMREQ.withPosition(toTicks).withSlot(0));
+      shooterMotor.setControl(M_MMREQ.withPosition(toTicks).withSlot(1));
     }
 
     public double degreesToRotations(double degrees)
