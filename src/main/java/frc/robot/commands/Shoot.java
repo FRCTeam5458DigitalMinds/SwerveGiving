@@ -22,7 +22,6 @@ public class Shoot extends Command
     Climber climber;
     Shooter shooter;
     GroundIntake intake;
-    SwerveSubsystem swerve;
     Limelight limelight;
     int MODE;
 
@@ -34,20 +33,19 @@ public class Shoot extends Command
     private double distance;
     private double degrees;
 
-    public Shoot(Climber m_Climber, Shooter m_Shooter, GroundIntake m_Intake, SwerveSubsystem m_SwerveSubsystem, Limelight m_Limelight, int mode) 
+    public Shoot(Climber m_Climber, Shooter m_Shooter, GroundIntake m_Intake, Limelight m_Limelight, int mode) 
     {
         this.climber = m_Climber;
         this.shooter = m_Shooter;
         this.intake = m_Intake;
         this.limelight = m_Limelight;
-        this.swerve = m_SwerveSubsystem;
         this.MODE = mode;
 
         addRequirements(m_Climber);
         addRequirements(m_Shooter);
         addRequirements(m_Intake);
         addRequirements(m_Limelight);
-        addRequirements(m_SwerveSubsystem);
+
     }
     
     public void initialize()
@@ -61,18 +59,31 @@ public class Shoot extends Command
             if (elevator_point <= 1)
             {
                 int cur_id = limelight.getID();
-
+                SmartDashboard.putNumber("cur ID", cur_id);
                 distance = limelight.find_Tag_Y_Distance(limelight.findTagHeightFromID(limelight.check_eligible_id(cur_id)));
-
+                SmartDashboard.putString("DB/String 1", Double.toString(distance));
                 if (distance != -1) 
                 {
-                    degrees = (Math.atan(2.0447/distance));
+                    degrees = (71.5 - (Math.atan(2.0447/distance) * (180/3.14159)));
+                    if (degrees < 60 && degrees > 0)
+                    {
+                        SmartDashboard.putNumber("degrees", degrees);
+                        SmartDashboard.putNumber("Command finished", degrees / 360. * 218.75);
+                        shooter.toCustomSetpoint(degrees);
+                        shooter.runFlyWheels(95);
+                        shooter.runFeederWheels(0);
+                    }
+                    //intake.setRollers(-50);
 
-                    shooter.toCustomSetpoint(degrees);
-                    shooter.runFlyWheels(80);
-                    intake.setRollers(-50);
-
-                    isFinished(true);
+                }
+                else
+                {
+                    shooter.runFlyWheels(95);
+                    shooter.toSetPoint(0);
+                    shooter.runFeederWheels(0);
+                    
+            
+                    intake.setRollers(0);
                 }
                 
                 //CALL AUTOMATIC LIMELIGHTSHOOTING HERE!!!!
@@ -94,28 +105,27 @@ public class Shoot extends Command
         }
         else if (MODE == 1)
         {
-            //shooter.toSetPoint(0);
-            shooter.toCustomSetpoint(20);
-            shooter.runFeederWheels(0);
-            shooter.runFlyWheels(0);
-            
-            intake.setRollers(0);
+            intake.toSetPoint(1);
         }
-        else
+        else if (MODE == 2)
         {
             shooter.toSetPoint(0);
             shooter.runFeederWheels(0);
             shooter.runFlyWheels(0);
             intake.setRollers(0);
-            isFinished(false);
 
+        }
+        else 
+        {
+            intake.setRollers(0);
+            intake.toSetPoint(0);
         }
         timer.restart();
     }
 
     public void execute() 
     {
-        if (MODE != 2)
+        if (MODE < 2)
         {
             isFinished(true);
         }
@@ -127,33 +137,37 @@ public class Shoot extends Command
 
     public boolean isFinished(boolean keepChecking)
     {
-        SmartDashboard.putNumber("shooter velocity", shooter.getV());
 
         if (keepChecking == false)
         {
-            SmartDashboard.putString("Command finished","Finished");
 
             return true;
         } 
 
         else if (timer.get() > 1)
         {
-            if (Math.abs(shooter.getV()) > 0)
+            if (MODE != 1)
             {
-                SmartDashboard.putString("Command finished","Not");
+                if (Math.abs(shooter.getV()) > 0)
+                {
 
-                return false;
-            } 
-            else 
+                    return false;
+                } 
+                else 
+                {
+
+                    //shooter.toSetPoint(0);
+                    
+                    shooter.runFeederWheels(80);
+                    shooter.runFlyWheels(95);
+                    intake.setRollers(-50);
+
+                    return true;
+                }
+            }
+            else
             {
-                SmartDashboard.putString("Command finished","Finished");
-
-            //  shooter.toSetPoint(0);
-                
-                shooter.runFeederWheels(80);
-                shooter.runFlyWheels(95);
                 intake.setRollers(-50);
-
                 return true;
             }
         }

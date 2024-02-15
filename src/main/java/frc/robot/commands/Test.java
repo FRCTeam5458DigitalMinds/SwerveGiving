@@ -40,7 +40,6 @@ public class Test extends Command
             shooter.runFeederAtSet(80);
         }
 
-        SmartDashboard.putNumber("ShooterEncoder", shooter.getEncoder());
     
         isFinished();
     }

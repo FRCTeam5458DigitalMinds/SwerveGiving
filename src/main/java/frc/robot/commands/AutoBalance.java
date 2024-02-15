@@ -31,7 +31,7 @@ public class AutoBalance extends Command {
   @Override
   public void execute() {
     m_swerveSubsystem.AutoBalance();
-    SmartDashboard.putBoolean("Is Balanced?", isBalanced);
+
   }
 
   // Called once the command ends or is interrupted.

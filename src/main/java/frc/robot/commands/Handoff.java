@@ -43,7 +43,7 @@ public class Handoff extends Command{
 
     public void execute()
     {
-        SmartDashboard.putNumber("timer: ", timer.get());
+
         isFinished();
     }
     

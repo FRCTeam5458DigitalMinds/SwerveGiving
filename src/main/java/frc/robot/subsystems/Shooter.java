@@ -119,9 +119,10 @@ public class Shooter extends SubsystemBase{
     public void toCustomSetpoint(double degrees)
     {
       double toTicks = degreesToRotations(degrees);
+      SmartDashboard.putString("DB/String 2", Double.toString(degrees));
 
      // final MotionMagicExpoVoltage m_PIDRequest = new MotionMagicExpoVoltage(0);
-      shooterMotor.setControl(M_MMREQ.withPosition(toTicks).withSlot(1));
+      shooterMotor.setControl(M_MMREQ.withPosition(toTicks).withFeedForward(m_ff).withSlot(0));
     }
 
     public double degreesToRotations(double degrees)

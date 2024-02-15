@@ -21,16 +21,16 @@ public class IntakeTest extends Command
     //  private double podium_degrees = 33.333;
     //  private double subwoofer_degrees = 65.662787;
 
-    public IntakeTest(GroundIntake m_Intake, int setpoint) 
+    public IntakeTest(GroundIntake m_Intake) 
     {
         this.intake = m_Intake;
-        this.SETPOINT = setpoint;
+       // this.SETPOINT = setpoint;
         addRequirements(m_Intake);
     }
     
     public void initialize()
     {            
-        intake.toSetPoint(SETPOINT);
+       // intake.toSetPoint(SETPOINT);
         SmartDashboard.putNumber("intake encoder", intake.getEncoder());
         isFinished();
     }

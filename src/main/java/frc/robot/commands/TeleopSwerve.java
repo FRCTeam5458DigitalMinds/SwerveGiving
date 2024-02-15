@@ -109,7 +109,7 @@ public class TeleopSwerve extends Command {
       SmartDashboard.putString("DB/String 5", Double.toString(m_rotationSupplier.getAsDouble()));
       rotationVal =
       rotationLimiter.calculate(
-          MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), 0.7));
+          MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), 0.1));
 
       SmartDashboard.putString("DB/String 9", Double.toString(move_to_yaw));
     }

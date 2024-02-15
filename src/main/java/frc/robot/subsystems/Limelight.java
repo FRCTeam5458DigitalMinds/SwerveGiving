@@ -36,6 +36,8 @@ public class Limelight extends SubsystemBase
     //the Y and X distance is from an overhead view!
     public double find_Tag_Y_Distance(double tagHeight) 
     {
+        tagHeight *= 39.37;
+
         if (tagHeight != -1)
         {
             double m_y_angleToTagDegrees = Constants.LimelightConstants.m_limelightMountAngleDegree + m_y_AngleOffset;
@@ -43,7 +45,7 @@ public class Limelight extends SubsystemBase
 
             double m_limelightToTagInches = ((tagHeight - Constants.LimelightConstants.m_limelightLensHeightInches) / Math.tan(m_y_angleToTagRadians)) - Constants.LimelightConstants.m_limelightToFrontOfRobot;
 
-            return m_limelightToTagInches;
+            return Math.abs(m_limelightToTagInches /= 39.37);
         }
         return -1;
     }
