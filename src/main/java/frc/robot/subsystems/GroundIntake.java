@@ -13,7 +13,7 @@ import frc.robot.Constants;
 public class GroundIntake extends SubsystemBase {
   private double deployPosition = -36.4;
   private double climbingPosition = -13.104;
-  private double origin = -1.5;
+  private double origin = -1.75;
   private double ejectPosition = -27;
 
   private double[] m_setPoints = {origin, deployPosition, climbingPosition, ejectPosition};

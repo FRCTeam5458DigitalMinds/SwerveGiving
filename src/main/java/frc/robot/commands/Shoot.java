@@ -12,13 +12,13 @@ import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
- 
+import java.util.HashMap;
 
 public class Shoot extends Command
 {
    
     Timer timer = new Timer();
-
+    
     Climber climber;
     Shooter shooter;
     GroundIntake intake;
@@ -75,7 +75,8 @@ public class Shoot extends Command
 
                 if (distance >= 0) 
                 {
-                    degrees = (71.25 - (Math.atan(2.0447/distance) * (180/3.14159)));
+                    degrees = 3.5;
+                  //  degrees = (73.5 - (Math.atan(2.0447/distance) * (180/3.14159)));
                     if (degrees < 60 && degrees >= 0)
                     {
                         SmartDashboard.putNumber("degrees", degrees);
@@ -136,6 +137,7 @@ public class Shoot extends Command
 
     public void execute() 
     {
+
         if (MODE < 2)
         {
             isFinished(true);
@@ -178,7 +180,7 @@ public class Shoot extends Command
             }
             else
             {
-                intake.setRollers(-50);
+                intake.setRollers(-80);
                 return true;
             }
         }
