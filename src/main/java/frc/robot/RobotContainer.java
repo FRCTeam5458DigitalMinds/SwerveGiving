@@ -112,6 +112,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    NamedCommands.registerCommand("Shoot", new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, -1));
+    NamedCommands.registerCommand("Finish Shoot", new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 2));
+
 
     
     m_side_chooser.setDefaultOption("Blue", m_blue);
@@ -157,10 +160,6 @@ public class RobotContainer {
     m_SwerveSubsystem.setWheelsToX();
 
     //path planner named commands.
-    NamedCommands.registerCommand("deployIntake1", new InstantCommand(() -> m_GroundIntake.print("intake1")));
-    NamedCommands.registerCommand("deployIntake2", new InstantCommand(() -> m_GroundIntake.print("intake2")));
-    NamedCommands.registerCommand("deployIntake3", new InstantCommand(() -> m_GroundIntake.print("intake3")));
-    NamedCommands.registerCommand("ampScore", new InstantCommand(() -> m_GroundIntake.print("Amp Score!")));
 
    // m_XboxController.button(kButton.kY.value).onTrue(new IntakeTest(m_GroundIntake, 1));
    // m_XboxController.button(Button.kY.value).onTrue(new IntakeTest(m_GroundIntake, 1));
@@ -184,11 +183,14 @@ public class RobotContainer {
     m_XboxController.button(Button.kB.value).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 1));
     m_XboxController.button(Button.kB.value).onFalse(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 3));
 
-    m_XboxController.axisGreaterThan(3, 0).whileTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 0));
+    m_XboxController.button(Button.kRightBumper.value).whileTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 0));
+    m_XboxController.button(Button.kRightBumper.value).onFalse(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 2));
+
+    m_XboxController.axisGreaterThan(3, 0).whileTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, -1));
     m_XboxController.axisGreaterThan(3, 0).onFalse(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 2));
 
 
-    m_XboxController.axisGreaterThan(2, 0).whileTrue(new DeployIntake(m_GroundIntake, m_Shooter, m_Climber));
+    m_XboxController.axisGreaterThan(2, 0).onTrue(new DeployIntake(m_GroundIntake, m_Shooter, m_Climber));
     m_XboxController.axisGreaterThan(2, 0).onFalse(new RetractIntake(m_GroundIntake, m_Shooter, m_Climber));
     
    // m_XboxController.button(Button.kA.value).onTrue(new InstantCommand(() -> m_Limelight.LimeToDrive()));

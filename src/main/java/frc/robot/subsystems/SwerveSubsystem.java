@@ -73,7 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
       new PIDConstants(2.0, 0.0005, 0.001),
       
       3.0,
-      10.375, 
+      .33655, 
       new ReplanningConfig()),
     sideChosen, this); 
   }

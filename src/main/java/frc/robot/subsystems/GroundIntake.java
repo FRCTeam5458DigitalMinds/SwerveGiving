@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class GroundIntake extends SubsystemBase {
-  private double deployPosition = -36.01;
+  private double deployPosition = -36.4;
   private double climbingPosition = -13.104;
-  private double origin = -1;
+  private double origin = -1.5;
+  private double ejectPosition = -27;
 
-  private double[] m_setPoints = {origin, deployPosition, climbingPosition};
+  private double[] m_setPoints = {origin, deployPosition, climbingPosition, ejectPosition};
   
   private final SparkPIDController intakeController;
   private RelativeEncoder intakeEncoder;
@@ -28,12 +29,13 @@ public class GroundIntake extends SubsystemBase {
     rollerMotor = new CANSparkMax(Constants.IntakeConstants.roller_ID, MotorType.kBrushless);
     intakeEncoder = intakeMotor.getEncoder();
     intakeMotor.restoreFactoryDefaults();
+    rollerMotor.restoreFactoryDefaults();
     intakeMotor.setIdleMode(IdleMode.kCoast);
     intakeMotor.burnFlash();
     rollerMotor.setIdleMode(IdleMode.kBrake);
     rollerMotor.burnFlash();
 
-    rollerMotor.setSmartCurrentLimit(30);
+    rollerMotor.setSmartCurrentLimit(23);
     intakeMotor.setSmartCurrentLimit(30);
 
     intakeController = intakeMotor.getPIDController();
@@ -50,11 +52,13 @@ public class GroundIntake extends SubsystemBase {
    // intakeController.setSmartMotionMinOutputVelocity(Constants.IntakeConstants.min_vel, 0);
     intakeController.setSmartMotionMaxVelocity(Constants.IntakeConstants.max_vel, 0);
     intakeController.setSmartMotionAllowedClosedLoopError(Constants.IntakeConstants.allowed_error, 0);
+    //intakeController.set
   }
 
   public void toSetPoint(int setPoint) 
   {
     intakeController.setReference(m_setPoints[setPoint], CANSparkMax.ControlType.kSmartMotion);
+    //intakeController.set
   }
 
   public void setRollers(double OutputPercent)

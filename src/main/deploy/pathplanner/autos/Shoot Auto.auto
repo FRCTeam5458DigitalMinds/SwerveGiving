@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2962452465189287,
-      "y": 5.583099697005081
+      "x": 1.356139746680443,
+      "y": 5.531293435066112
     },
     "rotation": 0
   },
@@ -12,15 +12,21 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "4Note_Auto1"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Finish Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "4Note_Auto2"
+            "pathName": "Shoot 1"
           }
         }
       ]

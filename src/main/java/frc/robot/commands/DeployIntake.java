@@ -30,7 +30,14 @@ public class DeployIntake extends Command {
         shooter.runFeederWheels(0);
         shooter.runFlyWheels(0);
         shooter.toSetPoint(1);
+        
         intake.setRollers(80);
         intake.toSetPoint(1);
+
+        isFinished();
+    }
+    public boolean isFinished()
+    {
+        return true;
     }
 }

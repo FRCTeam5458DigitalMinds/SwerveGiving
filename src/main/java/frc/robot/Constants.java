@@ -59,7 +59,7 @@ public final class Constants {
        
     //Swerve Current Limiting for neos
     public static final int angleContinuousCurrentLimit = 20; //limits current draw of turning motor
-    public static final int driveContinuousCurrentLimit = 40; //limits current draw of drive motor
+    public static final int driveContinuousCurrentLimit = 37; //limits current draw of drive motor
   
 
 
@@ -210,17 +210,17 @@ public final class Constants {
     public static final double kI = 0.00000;
 
     //targets the errors in positioning
-    public static final double kP = 0.08;
+    public static final double kP = 0.15;
     //targets the errors in velocity
-    public static final double kD = 0.0085;
+    public static final double kD = 0.021;
 
     public static final double FF = 0.0007;
 
     public static final double max_vel = 1500;
     public static final double min_vel = 0;
-    public static final double max_accel = 1500;
+    public static final double max_accel = 1000;
 
-    public static final double allowed_error = 0.04;
+    public static final double allowed_error = 0.23;
   }
   public static final class ShooterConstants {
     public static final int Shooter_ID = 12;
@@ -243,7 +243,7 @@ public final class Constants {
     //targets the errors in positioning
     public static final double kP = 0.0075;
     //targets the errors in velocity
-    public static final double kD = 0.0070;
+    public static final double kD = 0.007;
 
     public static final double FF = 0.00035;
 
@@ -251,6 +251,6 @@ public final class Constants {
     public static final double min_vel = 0;
     public static final double max_accel = 1500;
 
-    public static final double allowed_error = 0.007;
+    public static final double allowed_error = 0.015;
   }
 }

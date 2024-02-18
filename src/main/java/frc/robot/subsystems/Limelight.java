@@ -38,7 +38,7 @@ public class Limelight extends SubsystemBase
     {
         tagHeight *= 39.37;
 
-        if (tagHeight != -1)
+        if (tagHeight > -1)
         {
             double m_y_angleToTagDegrees = Constants.LimelightConstants.m_limelightMountAngleDegree + m_y_AngleOffset;
             double m_y_angleToTagRadians = m_y_angleToTagDegrees * (3.14159 / 180.);

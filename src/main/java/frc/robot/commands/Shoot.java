@@ -54,6 +54,15 @@ public class Shoot extends Command
         this.elevator_point = climber.getInches();
         intake.toSetPoint(0);
 
+        if (MODE == -1)
+        {
+            shooter.runFlyWheels(-95);
+            shooter.toSetPoint(0);
+            shooter.runFeederWheels(0);
+            
+    
+            intake.setRollers(0);
+        }
         if (MODE == 0)
         {
             if (elevator_point <= 1)
@@ -62,15 +71,17 @@ public class Shoot extends Command
                 SmartDashboard.putNumber("cur ID", cur_id);
                 distance = limelight.find_Tag_Y_Distance(limelight.findTagHeightFromID(limelight.check_eligible_id(cur_id)));
                 SmartDashboard.putString("DB/String 1", Double.toString(distance));
-                if (distance != -1) 
+                SmartDashboard.putString("DB/String 8", "auto");
+
+                if (distance >= 0) 
                 {
-                    degrees = (71.5 - (Math.atan(2.0447/distance) * (180/3.14159)));
-                    if (degrees < 60 && degrees > 0)
+                    degrees = (71.25 - (Math.atan(2.0447/distance) * (180/3.14159)));
+                    if (degrees < 60 && degrees >= 0)
                     {
                         SmartDashboard.putNumber("degrees", degrees);
                         SmartDashboard.putNumber("Command finished", degrees / 360. * 218.75);
                         shooter.toCustomSetpoint(degrees);
-                        shooter.runFlyWheels(95);
+                        shooter.runFlyWheels(-95);
                         shooter.runFeederWheels(0);
                     }
                     //intake.setRollers(-50);
@@ -78,7 +89,7 @@ public class Shoot extends Command
                 }
                 else
                 {
-                    shooter.runFlyWheels(95);
+                    shooter.runFlyWheels(-95);
                     shooter.toSetPoint(0);
                     shooter.runFeederWheels(0);
                     
@@ -91,8 +102,8 @@ public class Shoot extends Command
             else if (elevator_point <= 7)
             {
                 intake.setRollers(0);
-                shooter.runFlyWheels(80);
-                shooter.runFeederWheels(95);
+                shooter.runFlyWheels(95);
+                shooter.runFeederWheels(80);
                 isFinished(false);
             }
             else 
@@ -105,7 +116,7 @@ public class Shoot extends Command
         }
         else if (MODE == 1)
         {
-            intake.toSetPoint(1);
+            intake.toSetPoint(3);
         }
         else if (MODE == 2)
         {
@@ -159,7 +170,7 @@ public class Shoot extends Command
                     //shooter.toSetPoint(0);
                     
                     shooter.runFeederWheels(80);
-                    shooter.runFlyWheels(95);
+                    shooter.runFlyWheels(-95);
                     intake.setRollers(-50);
 
                     return true;
