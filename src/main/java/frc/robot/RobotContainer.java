@@ -25,6 +25,8 @@ import frc.robot.commands.IntakeTest;
 import frc.robot.commands.MoveClimber;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.AutoShoot;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -112,8 +114,12 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    NamedCommands.registerCommand("Shoot", new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, -1));
-    NamedCommands.registerCommand("Finish Shoot", new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 2));
+    NamedCommands.registerCommand("Shoot", new AutoShoot(m_Shooter, m_GroundIntake, 0));
+    NamedCommands.registerCommand("Shoot2", new AutoShoot(m_Shooter, m_GroundIntake, 1));
+
+    NamedCommands.registerCommand("ShootFinish", new AutoShoot( m_Shooter, m_GroundIntake, 2));
+    NamedCommands.registerCommand("StopIntake", new RetractIntake(m_GroundIntake, m_Shooter, m_Climber));
+    NamedCommands.registerCommand("Intake", new DeployIntake(m_GroundIntake, m_Shooter, m_Climber));
 
 
     

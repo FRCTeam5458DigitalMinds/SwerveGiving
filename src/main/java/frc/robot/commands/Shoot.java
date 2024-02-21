@@ -53,7 +53,7 @@ public class Shoot extends Command
 
         this.elevator_point = climber.getInches();
         intake.toSetPoint(0);
-
+        
         if (MODE == -1)
         {
             shooter.runFlyWheels(-95);
