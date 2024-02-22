@@ -20,13 +20,16 @@ import frc.robot.autos.FourNoteAuto;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.Test;
 import frc.robot.commands.DeployIntake;
+import frc.robot.commands.Eject;
+import frc.robot.commands.FinishShoot;
 import frc.robot.commands.Handoff;
 import frc.robot.commands.IntakeTest;
 import frc.robot.commands.MoveClimber;
+import frc.robot.commands.OpenShoot;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.AutoShoot;
-
+import frc.robot.commands.ClosedShoot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -178,6 +181,8 @@ public class RobotContainer {
     m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake, m_Climber));
     
     m_XboxController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.zeroGyro()));
+
+    
     /* 
     m_XboxController.button(Button.kB.value).onTrue(new InstantCommand(() -> m_SwerveSubsystem.setWheelsToX()));
     m_XboxController.button(Button.kX.value).onTrue(new Handoff(m_Shooter, m_GroundIntake, m_Climber));
@@ -186,14 +191,13 @@ public class RobotContainer {
     m_XboxController.povLeft().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 1));
     m_XboxController.povUp().onTrue(new MoveClimber(m_GroundIntake, m_Shooter, m_Climber, 2));
 */
-    m_XboxController.button(Button.kB.value).onTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 1));
-    m_XboxController.button(Button.kB.value).onFalse(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 3));
+    m_XboxController.button(Button.kB.value).onTrue(new Eject(m_GroundIntake, 0));
+    m_XboxController.button(Button.kB.value).onFalse(new Eject(m_GroundIntake, 1));
 
-    m_XboxController.button(Button.kRightBumper.value).whileTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 0));
-    m_XboxController.button(Button.kRightBumper.value).onFalse(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 2));
+    m_XboxController.button(Button.kRightBumper.value).onTrue(new ClosedShoot(m_Shooter, m_GroundIntake, m_Climber, m_Limelight));
 
-    m_XboxController.axisGreaterThan(3, 0).whileTrue(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, -1));
-    m_XboxController.axisGreaterThan(3, 0).onFalse(new Shoot(m_Climber, m_Shooter, m_GroundIntake, m_Limelight, 2));
+    m_XboxController.axisGreaterThan(3, 0).onTrue(new OpenShoot( m_Shooter, m_GroundIntake));
+    m_XboxController.axisGreaterThan(3, 0).onFalse(new FinishShoot(m_Shooter, m_GroundIntake));
 
 
     m_XboxController.axisGreaterThan(2, 0).onTrue(new DeployIntake(m_GroundIntake, m_Shooter, m_Climber));

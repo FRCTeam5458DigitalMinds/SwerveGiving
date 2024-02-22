@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.RelativeEncoder;
@@ -15,6 +17,7 @@ public class GroundIntake extends SubsystemBase {
   private double climbingPosition = -13.104;
   private double origin = -1.75;
   private double ejectPosition = -27;
+  private double intakedistance;
 
   private double[] m_setPoints = {origin, deployPosition, climbingPosition, ejectPosition};
   
@@ -22,6 +25,8 @@ public class GroundIntake extends SubsystemBase {
   private RelativeEncoder intakeEncoder;
   private CANSparkMax intakeMotor;
   private CANSparkMax rollerMotor;
+  private final TimeOfFlight m_rangeSensor = new TimeOfFlight(0);
+
 
 
   public GroundIntake() {
@@ -53,6 +58,7 @@ public class GroundIntake extends SubsystemBase {
     intakeController.setSmartMotionMaxVelocity(Constants.IntakeConstants.max_vel, 0);
     intakeController.setSmartMotionAllowedClosedLoopError(Constants.IntakeConstants.allowed_error, 0);
     //intakeController.set
+    m_rangeSensor.setRangingMode(RangingMode.Short, 40);
   }
 
   public void toSetPoint(int setPoint) 
@@ -94,6 +100,12 @@ public class GroundIntake extends SubsystemBase {
   public void print(String message)
   {
     SmartDashboard.putString("DB/String 2", message);
+  }
+
+  public double intakedistance()
+  {
+    intakedistance = (int)m_rangeSensor.getRange();
+    return intakedistance;
   }
   /* protected void interrupted()
   {

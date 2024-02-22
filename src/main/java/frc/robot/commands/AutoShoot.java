@@ -60,6 +60,7 @@ public class AutoShoot extends Command
         if (MODE == 1)
         {
             shooter.runFlyWheels(-95);
+            //2 note auto 17 degrees
             shooter.toCustomSetpoint(17);
             shooter.runFeederWheels(0);
             custyTIME = 2.5;

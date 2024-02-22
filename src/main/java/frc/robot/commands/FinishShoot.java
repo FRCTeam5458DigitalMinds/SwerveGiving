@@ -11,32 +11,42 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+import java.util.HashMap;
 
-public class IntakeTest extends Command
+public class FinishShoot extends Command
 {
+   
+    Timer timer = new Timer();
+    
+    Climber climber;
+    Shooter shooter;
     GroundIntake intake;
-    int SETPOINT;
+    Limelight limelight;
+    int MODE;
 
     //commented out bc no reasonable way to determine if we are there without doing math we would be "skipping"
     //  private double podium_degrees = 33.333;
     //  private double subwoofer_degrees = 65.662787;
 
-    public IntakeTest(GroundIntake m_Intake) 
+    public FinishShoot(Shooter m_Shooter, GroundIntake m_Intake) 
     {
+        this.shooter = m_Shooter;
         this.intake = m_Intake;
-       // this.SETPOINT = setpoint;
-        addRequirements(m_Intake);
+
+        addRequirements(m_Shooter);
+        addRequirements(m_Intake);  
 
     }
-    
     public void initialize()
-    {            
-       // intake.toSetPoint(SETPOINT);
+    {
+        shooter.toSetPoint(0);
+        shooter.runFeederWheels(0);
+        shooter.runFlyWheels(0);
+        intake.setRollers(0);
 
-        SmartDashboard.putNumber("intake encoder", intake.getEncoder());
         isFinished();
     }
-
     public boolean isFinished()
     {
         return true;

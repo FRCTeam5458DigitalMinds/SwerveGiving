@@ -4,59 +4,53 @@ import java.util.function.BooleanSupplier;
 
 import javax.lang.model.util.ElementScanner14;
 
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.GroundIntake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 import java.util.HashMap;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Limelight;
 
-public class Shoot extends Command
+
+
+
+public class ClosedShoot extends Command
 {
    
     Timer timer = new Timer();
     
+    double distance;
+    double degrees;
+
     Climber climber;
+    double elevator_point;
     Shooter shooter;
     GroundIntake intake;
     Limelight limelight;
-    int MODE;
-
-    private double elevator_point;
+    
+    
     //commented out bc no reasonable way to determine if we are there without doing math we would be "skipping"
     //  private double podium_degrees = 33.333;
     //  private double subwoofer_degrees = 65.662787;
 
-    private double distance;
-    private double degrees;
-
-    public Shoot(Climber m_Climber, Shooter m_Shooter, GroundIntake m_Intake, Limelight m_Limelight, int mode) 
+    public ClosedShoot(Shooter m_Shooter, GroundIntake m_Intake, Climber m_Climber, Limelight m_Limelight) 
     {
         this.climber = m_Climber;
         this.shooter = m_Shooter;
         this.intake = m_Intake;
         this.limelight = m_Limelight;
-        this.MODE = mode;
 
-        addRequirements(m_Climber);
         addRequirements(m_Shooter);
         addRequirements(m_Intake);
-        addRequirements(m_Limelight);
 
     }
-    
-    public void initialize()
-    {            
 
-        this.elevator_point = climber.getInches();
-        intake.toSetPoint(0);
-        
-        //TWO FILE CLOSED LOOP SHOOT
-        if (MODE == 0)
-        {
+    public void initialize()
+    {   
+        elevator_point = climber.getInches();
             if (elevator_point <= 1)
             {
                 int cur_id = limelight.getID();
@@ -97,92 +91,30 @@ public class Shoot extends Command
                 intake.setRollers(0);
                 shooter.runFlyWheels(95);
                 shooter.runFeederWheels(80);
-                isFinished(false);
             }
             else 
             {
                 intake.setRollers(0);
                 shooter.runFlyWheels(-50);
                 shooter.runFeederWheels(-50);
-                isFinished(false);
             }
         }
-        //THREE FILE EJECT PART ONE WHEN PRESSY B
-        else if (MODE == 1)
+        public void execute()
         {
-            intake.toSetPoint(3);
+            isFinished();
         }
-        //FOUR FILE CALL END SHOOT
-        else if (MODE == 2)
-        {
-            shooter.toSetPoint(0);
-            shooter.runFeederWheels(0);
-            shooter.runFlyWheels(0);
-            intake.setRollers(0);
 
-        }
-        //THREE FILE AGAIN EJECT PART TWO WHEN RELEASY B
-        else 
-        {
-            intake.setRollers(0);
-            intake.toSetPoint(0);
-        }
-        timer.restart();
-    }
-
-    public void execute() 
-    {
-
-        //GET RID OF THIS AND MAKE FILE SPECIFIC
-        if (MODE < 2)
-        {
-            isFinished(true);
-        }
-        else
-        {
-            isFinished(false);
-        }
-    }
-
-    public boolean isFinished(boolean keepChecking)
-    {
-
-        if (keepChecking == false)
-        {
-
-            return true;
-        } 
-
-        //KEEP GENERAL TIMER AND SHOOTER LOGIC FILE SPECIFIC
-
-        else if (timer.get() > 1)
-        {
-            if (MODE != 1)
+        @Override
+        public boolean isFinished() {
+            if (timer.get() > 1 && shooter.getV() == 0)
             {
-                if (Math.abs(shooter.getV()) > 0)
-                {
+                shooter.runFeederWheels(85);
+                intake.setRollers(-50);
 
-                    return false;
-                } 
-                else 
-                {
-
-                    //shooter.toSetPoint(0);
-                    
-                    shooter.runFeederWheels(80);
-                    shooter.runFlyWheels(-95);
-                    intake.setRollers(-50);
-
-                    return true;
-                }
-            }
-            else
-            {
-                intake.setRollers(-80);
                 return true;
             }
+            return false;
         }
-     //   }
-        return false;
     }
-}
+
+
